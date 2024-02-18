@@ -1,0 +1,34 @@
+<nav class="navbar navbar-expand-lg" style="padding-top: 0; padding-bottom: 0; background-color: #000000dd;">
+    <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" routerLink="/" style="display: flex; align-items: center; height: 110%;">
+            <img src="../../assets/PhotoRoom_20240215_195725.PNG" alt="Logo" style="height: 110px;">
+        </a>
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active text-warning" aria-current="page" routerLink="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active text-warning" routerLink="/recipes" aria-current="page" href="#">List Recipes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active text-warning" aria-current="page" routerLink="/recipe">Add Recipe</a>
+                </li>
+                <li class="nav-item">
+                    <form class="d-flex" role="search">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-warning" type="submit">Search</button>
+                    </form>
+                </li>
+            </ul>
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <button class="btn btn-warning" type="submit">Login</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

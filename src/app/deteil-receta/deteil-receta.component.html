@@ -1,0 +1,45 @@
+<app-nav-bar></app-nav-bar>
+<div class="container my-5">
+  <div class="row">
+    <div class="col-lg-8 mx-auto">
+      <div *ngIf="recipe" class="card border-warning mb-3">
+        <div class="card-header bg-white text-center">
+          <h4>Recipe Details</h4>
+        </div>
+        <div class="card-body">
+          <!-- Image preview -->
+          <div class="text-center mb-3">
+            <img *ngIf="recipe.image" [src]="recipe.image" class="img-fluid" alt="{{ recipe.title }}">
+            <!-- Placeholder if no image -->
+            <div *ngIf="!recipe.image" class="image-placeholder">
+              <span>No Image Available</span>
+            </div>
+          </div>
+          <!-- Title -->
+          <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" class="form-control mb-3" id="title" [(ngModel)]="recipe.title" readonly>
+          </div>
+          <!-- Filtering Method -->
+          <div class="form-group">
+            <label for="filtering-method">Filtering Method</label>
+            <input type="text" class="form-control" id="filtering-method" [(ngModel)]="recipe.filteringMethod" readonly>
+          </div>
+          <!-- Origin -->
+          <div class="form-group">
+            <label for="origin">Origin</label>
+            <select id="origin" class="form-control" [(ngModel)]="recipe.originIds" multiple readonly>
+              <option *ngFor="let origin of origins" [ngValue]="origin.id">{{ origin.country }}</option>
+            </select>
+          </div>
+          <!-- Description -->
+          <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" class="form-control mb-3" rows="3" [(ngModel)]="recipe.description" readonly></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>
