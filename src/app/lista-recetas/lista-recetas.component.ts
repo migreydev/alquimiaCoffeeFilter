@@ -5,6 +5,8 @@ import { Recipe } from '../interfaces/Recipe';
 import { CommonModule } from '@angular/common';
 import { FooterComponent } from '../footer/footer.component';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Page } from '../interfaces/Page';
+import { AuthService } from '../auth/services/auth.service';
 
 @Component({
   selector: 'app-lista-recetas',
@@ -16,26 +18,31 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 export class ListaRecetasComponent implements OnInit {
   
   recipes: Recipe[] = []; //Array para almacenar las recetas
-  numPage = 0; //numero de pagina 
+  pageable!: Page;// Variable Page
+  numPage = 1; //numero de pagina 
   totalRecipes: number = 0; //total de recetas
   maxPage: number = 0;  //maximo numero de paginas 
   pageSize = 4;
   order = 'id';
   asc = true;
 
-  constructor(private recipeService: RecipeService) {}
+  userRole: string | null = null;
+  username: string | null = null;
+
+  constructor(private recipeService: RecipeService, private authService: AuthService) {}
 
   //Se inicializa al cargar el componente
   ngOnInit(): void {
-    this.calculateMaxPages();
     this.loadRecipes();
+    this.userRole = this.getUserRole();
   }
 
   //Metodo para cargar las recetas 
   loadRecipes(): void {
-    this.recipeService.listRecipes(this.numPage, this.pageSize, this.order, this.asc).subscribe({
-      next: (recipes) => { //Nos devuelve el listado de receta junto al numero de pagina, order....
-        this.recipes = recipes;
+    this.recipeService.listRecipes(this.numPage, this.order, this.asc).subscribe({
+      next: (page) => { //Nos devuelve el listado de receta junto al numero de pagina, order....
+        this.recipes = page.content;
+        this.pageable = page;
       },
       error: (error) => {
         console.error('Error al cargar las recetas:', error);
@@ -46,6 +53,7 @@ export class ListaRecetasComponent implements OnInit {
   //metodo para incrementar la pagina y avanzar a la siguiente
   nextPage(): void {
     this.numPage++;
+    console.log(this.numPage);
     this.loadRecipes();
   }
 
@@ -53,51 +61,27 @@ export class ListaRecetasComponent implements OnInit {
   prevPage(): void {
     if (this.numPage > 0) {
       this.numPage--;
+      console.log(this.numPage);
       this.loadRecipes();
     }
   }
 
-  //metodo para calcular el numero maximo de paginas 
-  calculateMaxPages(): void {
-    this.recipeService.getTotalRecipesCount().subscribe({ //nos subscribimos al metodo contador de recetas total
-      next: (totalRecipes) => { //nos devuelve el total de recetas
-        this.totalRecipes = totalRecipes; //se la asociamos a la variable totalRecipes
-        this.maxPage = Math.ceil(this.totalRecipes / this.pageSize) - 1; // calcula el numero maximo de paginas a traves de el total de recetas entre el tamaño de pagina
-        this.loadRecipes(); //carga las recetas 
-      },
-      error: (error) => {
-        console.error('Error', error);
-      }
-    });
-  }
-
   // Metodo para ir a la primera pagina de recetas
   firstPage(): void {
-    // Comprueba si el usuario no esta en la primera página
-    if (this.numPage > 0) {
-      this.numPage = 0;
-      this.loadRecipes(); //carga las recetas 
+    if(this.numPage > 2){
+      this.numPage = 1;
+      this.loadRecipes();
     }
   }
   
   //metodo para ir a la ultima pagina 
   lastPage(): void {
-    if (this.numPage < this.maxPage) { // Comprueba si no se esta ya en la ultima pagina
-      this.numPage = this.maxPage; //  establece numPage en la última página 
+      this.numPage = this.pageable.totalPages; 
+      console.log(this.numPage);
       this.loadRecipes();
-    }
   }
   
-
-  orderBy(order: string): void {
-    if (this.order === order) {
-      this.asc = !this.asc; 
-    } else {
-      this.order = order; 
-      this.asc = true; 
-    }
-    this.loadRecipes(); 
-  }
+  
 
   //metodo para eliminar una receta 
   deleteRecipe(id: number) {
@@ -109,6 +93,14 @@ export class ListaRecetasComponent implements OnInit {
         console.error(err);
       }
     });
+  }
+
+  getUsername(): string | null {
+    return this.authService.getUsername();
+  }
+
+  getUserRole(): string | null {
+    return this.authService.getUserRole();
   }
 
 }

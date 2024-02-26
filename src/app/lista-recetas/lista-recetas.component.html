@@ -2,21 +2,22 @@
 <div class="container mt-4">
     <div class="d-flex justify-content-between mb-4 align-items-center">
         <h3 class="mb-0">Lista de Recetas</h3>
-        <button class="btn btn-warning" (click)="orderBy('title')">Ordenar por Título</button>
+        <button class="btn btn-warning">Ordenar por Título</button>
     </div>
 
     <!-- Tarjetas -->
     <div class="d-flex flex-wrap justify-content-center">
-        <div *ngFor="let recipe of recipes" class="card border-warning mb-3" style="width: 100%; max-width: 800px; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,.2);">
-            <div class="row g-0">
-                <div class="col-md-4">
-                    <img [src]="recipe.image || 'https://sibarist.coffee/wp-content/uploads/2022/09/sibarist20223481.jpg'" 
-                         class="img-fluid rounded-start" 
-                         alt="{{ recipe.title }}"
-                         style="object-fit: cover; height: 100%; border-top-left-radius: 10px; border-bottom-left-radius: 10px;">
+      <div *ngFor="let recipe of recipes" class="card border-warning mb-3" style="width: 100%; max-width: 800px; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,.2);">
+        @if (!recipe.deleted) { 
+          <div class="row g-0">
+            <div class="col-md-4" style="padding-right: 15px;">
+                  <img [src]="recipe.image || 'https://sibarist.coffee/wp-content/uploads/2022/09/sibarist20223481.jpg'" 
+                  class="img-fluid rounded-start" 
+                  alt="{{ recipe.title }}"
+                  style="object-fit: cover; height: calc(100% - 20px); border-top-left-radius: 10px; border-bottom-left-radius: 10px; margin: 10px;">
                 </div>
                 <div class="col-md-8">
-                    <div class="card-body">
+                  <div class="card-body d-flex flex-column justify-content-between">
                         <h5 class="card-title">{{ recipe.title }}</h5>
                         <p class="card-text">{{ recipe.description }}</p>
                         <div class="d-flex justify-content-between align-items-center">
@@ -30,13 +31,21 @@
                             <small *ngIf="recipe.deleted">Not available</small>
                         </div>
                         <div class="text-center mt-4">
-                            <button class="btn btn-sm btn-warning me-2" [routerLink]="['/recipe/detail', recipe.id]" type="button">More Info</button>
-                            <button class="btn btn-sm btn-warning me-2" [routerLink]="['/recipe', recipe.id]" type="button">Edit</button>
-                            <button class="btn btn-sm btn-warning me-2" (click)="deleteRecipe(recipe.id)" type="button">Delete</button>
+                            <button class="btn btn-lg btn-warning me-2" [routerLink]="['/recipe/detail', recipe.id]" type="button">More Info</button>
+                            @if (userRole === "user" || userRole === "admin") {
+                              <button class="btn btn-lg btn-warning me-2" [routerLink]="['/recipe', recipe.id]" type="button">Edit</button>
+                              <button class="btn btn-lg btn-warning me-2" (click)="deleteRecipe(recipe.id)" type="button">Delete</button>                              
+                              <button class="btn btn-lg btn-warning me-2" type="button">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                                  <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
+                                </svg>
+                              </button>
+                            }
                         </div>
                     </div>
                 </div>
             </div>
+          }
         </div>
     </div>
 
@@ -54,6 +63,9 @@
               <span aria-hidden="true" style="color: #fffb27;">&laquo;</span>
             </button>
           </li>
+          <li class="page-item">
+            <span class="page-link ms-2">{{ numPage}}</span>
+        </li>
           <!-- Next Page Button -->
           <li class="page-item">
             <button class="page-link ms-2" (click)="nextPage()" aria-label="Next" style="background-color: #ffc107; border-color: #ffc107;">
@@ -61,7 +73,7 @@
             </button>
           </li>
           <!-- Last Page Button -->
-          <li class="page-item" [class.disabled]="numPage >= maxPage">
+          <li class="page-item">
             <button class="page-link ms-2" (click)="lastPage()" aria-label="Last" style="background-color: #ffc107; border-color: #ffc107;">
               <span aria-hidden="true" style="color: #fffb27;">&raquo;&raquo;</span>
             </button>

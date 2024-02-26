@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { Recipe } from "../interfaces/Recipe";
 import { Observable, map } from "rxjs";
 import { Origin } from "../interfaces/Origin";
+import { Page } from "../interfaces/Page";
 
 
 @Injectable({
@@ -18,17 +19,14 @@ export class RecipeService {
     private urlOrigin = "http://localhost:8080/origins"; 
 
 
-    listRecipes(page: number, size: number, sort: string, asc: boolean): Observable<Recipe[]> {
-        const params = new HttpParams()
-          .set('page', page.toString())
-          .set('size', size.toString())
+    listRecipes(page: number, sort: string, asc: boolean): Observable<Page> {
+        new HttpParams()
+          .set('page', String(page))
           .set('sort', sort)
-          .set('direction', asc ? 'ASC' : 'DESC');
+          .set('asc', asc ? 'ASC' : 'DESC');
         
         
-        return this.http.get<any>(`${this.url}`, { params }).pipe(
-          map(response => response.content)
-        );
+        return this.http.get<any>(`${this.url}?pageNumber=${page}&sort=${sort}&asc=${asc}`)
     }
 
     //Devuelve un observable que emite un array de origenes de cafe

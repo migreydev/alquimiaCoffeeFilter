@@ -6,6 +6,7 @@ import { RecipeService } from '../services/recipe.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Origin } from '../interfaces/Origin';
+import { AuthService } from '../auth/services/auth.service';
 
 @Component({
     selector: 'app-add-receta',
@@ -15,11 +16,14 @@ import { Origin } from '../interfaces/Origin';
 })
 export class AddRecetaComponent implements OnInit {
   origins: Origin[] = []; //array de origenes
+  username: string  = "";
+  email: string = "";
+  idUser: number = 0;
   newRecipe: Recipe = { 
       id: 0,
-      userId: 1, 
-      userName: 'Sonnie',
-      userEmail: 'sstutte0@gmail.com',
+      userId: this.idUser, 
+      userName: this.username,
+      userEmail: this.email,
       title: '', 
       description: '',
       filteringMethod: '',
@@ -29,13 +33,18 @@ export class AddRecetaComponent implements OnInit {
   };
 
   successMessage: string = '';
-    errorMessage: string = '';
+  errorMessage: string = '';
 
-  constructor(private recipeService: RecipeService) {}
+  
+
+  constructor(private recipeService: RecipeService, private authService: AuthService) {}
 
   //Se ejecuta automaticamente cuando se inicializa el componente y llama al metodo cargar origenes cafe
   ngOnInit(): void { 
       this.loadOrigins();
+      this.newRecipe.userId = this.authService.getUserId() || 1;
+      this.newRecipe.userName = this.authService.getUsername() || "";
+      this.newRecipe.userEmail = this.authService.getUserEmail() || "";
   }
 
   //Metodo para cargar los origenes de cafe 
@@ -75,8 +84,8 @@ export class AddRecetaComponent implements OnInit {
       this.newRecipe = {
           id: 0,
           userId: 1,
-          userName: 'Sonnie',
-          userEmail: 'sstutte0@gmail.com',
+          userName: this.username,
+          userEmail: this.email,
           title: '', 
           description: '',
           filteringMethod: '',
@@ -84,5 +93,15 @@ export class AddRecetaComponent implements OnInit {
           image: '',
           deleted: 0
       };
+  }
+
+  getUsername(): string | null {
+    const user = this.authService.user;
+    return user ? user.username : null;
+  }
+
+  getEmail(): string | null {
+    const user = this.authService.user;
+    return user ? user.email : null;
   }
 }

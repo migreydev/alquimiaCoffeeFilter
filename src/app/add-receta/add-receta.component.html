@@ -36,12 +36,11 @@
                         <!-- Origin -->
                         <div class="form-group">
                             <label for="origin">Origin</label>
-                            <select id="origin" name="originIds" class="form-control" [(ngModel)]="newRecipe.originIds" multiple required>
+                            <select multiple id="origin" name="originIds" class="form-control" [(ngModel)]="newRecipe.originIds" size="5" required>
                                 <option value="">Select origins</option>
                                 <option *ngFor="let origin of origins" [value]="origin.id">{{ origin.country }}</option>
                             </select>
-                            
-                        </div>
+                        </div>                                      
                         <!-- Description -->
                         <div class="form-group">
                             <label for="description">Description</label>
