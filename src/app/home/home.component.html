@@ -7,33 +7,54 @@
     
 </head>
 <body>
-    <app-nav-bar></app-nav-bar>
+    <app-nav-bar (searchEvent)="onSearch($event)"></app-nav-bar>
     <div class="video-header">
         <video autoplay muted loop id="myVideo">
             <source src="../../assets/video (2160p).mp4" type="video/mp4">
         </video>
     </div>
+    <div class="container my-5">
+        <h2 class="text-center mb-4 text-warning">
+            <span></span>
+            Specialty Coffee and Filtration Methods
+        </h2>
+        
+        <div class="row">
+            <div class="col-lg-12">
+                <p class="text-justify">
+                    <strong>Specialty coffee</strong> represents the highest quality within the coffee industry. These beans come from regions with unique microclimates that enhance their complex and distinctive flavor profile.
+                </p>
+                <p class="text-justify">
+                    In a world where quality is key, coffee filtering methods have become an art form. From the classic French press to the meticulous Kalita method, AeroPress, each filtering technique brings different nuances and aromas to specialty coffee.
+                </p>
+                <p class="text-justify">
+                    Each cup of specialty coffee prepared with filtering methods is the result of a meticulous process that begins with responsible bean cultivation and ends in a cup full of flavor and character.
+                </p>
+            </div>
+        </div>        
+    </div>
+    
     <main role="main" class="container">
         <section class="gallery mt-5">
             <h2 class="text-warning">Gallery & Images Coffee Recipes</h2>
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-4" (click)="setFilterMethod('Origami')">
                     <div class="card mb-4 shadow-sm">
-                        <img src="../../assets/origami.png" class="bd-placeholder-img card-img-top" width="100%" height="500" alt="Coffee Recipe">
+                        <img src="../../assets/origami.png" class="bd-placeholder-img card-img-top" width="100%" height="500" alt="Origami">
                         <div class="card-body">
                             <p class="card-text">Origami</p>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4" (click)="setFilterMethod('Orea')">
                     <div class="card mb-4 shadow-sm">
-                        <img src="../../assets/orea.jpg" class="card-img-top" alt="French Press" height="200">
+                        <img src="../../assets/orea.jpg" class="card-img-top" alt="Orea" height="200">
                         <div class="card-body">
                             <p class="card-text">Orea</p>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4" (click)="setFilterMethod('French Press')">
                     <div class="card mb-4 shadow-sm">
                         <img src="../../assets/french.jpg" class="card-img-top" alt="French Press" height="500">
                         <div class="card-body">
@@ -41,25 +62,25 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4" (click)="setFilterMethod('AeroPress')">
                     <div class="card mb-4 shadow-sm">
-                        <img src="../../assets/aeropress.png" class="card-img-top" alt="French Press" height="100">
+                        <img src="../../assets/aeropress.png" class="card-img-top" alt="AeroPress" height="100">
                         <div class="card-body">
                             <p class="card-text">AeroPress</p>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4" (click)="setFilterMethod('April')">
                     <div class="card mb-4 shadow-sm">
-                        <img src="../../assets/sibarist11044.jpg" class="card-img-top" alt="French Press" height="180">
+                        <img src="../../assets/sibarist11044.jpg" class="card-img-top" alt="April" height="180">
                         <div class="card-body">
                             <p class="card-text">April</p>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4" (click)="setFilterMethod('V60')">
                     <div class="card mb-4 shadow-sm">
-                        <img src="../../assets/v60.png" class="card-img-top" alt="French Press" height="300">
+                        <img src="../../assets/v60.png" class="card-img-top" alt="V60" height="300">
                         <div class="card-body">
                             <p class="card-text">V60</p>
                         </div>
@@ -85,6 +106,22 @@
                     <div class="card mb-4 shadow-sm">
                         <img src="../../assets/filtro.jpeg" class="share-img-top" alt="Filtro">
                     </div>
+                </div>
+            </div>
+            <div class="container mt-4">
+                <h2 class="mb-0 text-warning">Your favourites recipes</h2>
+                <div class="row">
+                    @for (recipe of favoriteRecipes; track $index) {
+                    <div class="col-md-4">
+                        <div class="card mb-4 shadow-sm">
+                            <img [src]="recipe.image" class="card-img-top">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ recipe.title }}</h5>
+                                <p class="card-text">{{ recipe.filteringMethod }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    }
                 </div>
             </div>
         </section>        

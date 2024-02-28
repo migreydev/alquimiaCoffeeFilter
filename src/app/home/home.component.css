@@ -43,8 +43,8 @@
 /* Estilo para las imágenes en 'Share Your Brews' */
 .share-img-top {
     width: 100%; /* Asegura que la imagen ocupe el ancho completo de la tarjeta */
-    height: auto; /* Ajusta la altura automáticamente para mantener la relación de aspecto */
-    object-fit: cover; /* Asegura que la imagen cubra el área sin perder su relación de aspecto */
+    height: auto; /* Ajusta la altura automáticamente para mantener la relacion de aspecto */
+    object-fit: cover; /* Asegura que la imagen cubra el area sin perder su relacion de aspecto */
     max-height: 220px; /* Define una altura máxima más pequeña para estas imágenes */
 }
 

@@ -1,0 +1,45 @@
+<app-nav-bar></app-nav-bar>
+<div class="container mt-4">
+    <div class="d-flex justify-content-between mb-4 align-items-center">
+        <h3 class="mb-0">Lista de Recetas de {{ userName }}</h3>
+    </div>
+
+    <!-- Tarjetas -->
+    <div class="d-flex flex-wrap justify-content-center">
+        @for (recipe of userRecipes; track $index) {
+        <div class="card border-warning mb-3" style="width: 100%; max-width: 800px; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,.2);">
+            <div class="row g-0">
+                <div class="col-md-4" style="padding-right: 15px;">
+                    <img [src]="recipe.image || 'https://sibarist.coffee/wp-content/uploads/2022/09/sibarist20223481.jpg'" 
+                        class="img-fluid rounded-start" 
+                        alt="{{ recipe.title }}"
+                        style="object-fit: cover; height: calc(100% - 20px); border-top-left-radius: 10px; border-bottom-left-radius: 10px; margin: 10px;">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body d-flex flex-column justify-content-between">
+                        <h5 class="card-title">{{ recipe.title }}</h5>
+                        <p class="card-text">{{ recipe.description }}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <small><strong>Method: </strong> {{ recipe.filteringMethod }}</small>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mt-2">
+                            <small><strong>Name: </strong>{{ recipe.userName }}</small>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mt-2">
+                            <small><strong>Email: </strong>{{ recipe.userEmail }}</small> 
+                            @if(recipe.deleted){
+                                <small>Not available</small>
+                            }
+                        </div>
+                        <div class="text-center mt-4">
+                            <button class="btn btn-lg btn-warning me-2" [routerLink]="['/recipe/detail', recipe.id]" type="button">More Info</button>
+                              <button class="btn btn-lg btn-warning me-2" [routerLink]="['/recipe', recipe.id]" type="button">Edit</button>
+                              <button class="btn btn-lg btn-warning me-2" (click)="deleteRecipe(recipe.id)" type="button">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    </div>
+    <app-footer></app-footer>

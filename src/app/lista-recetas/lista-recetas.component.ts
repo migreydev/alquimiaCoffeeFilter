@@ -1,18 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NavBarComponent } from '../nav-bar/nav-bar.component';
 import { RecipeService } from '../services/recipe.service';
 import { Recipe } from '../interfaces/Recipe';
 import { CommonModule } from '@angular/common';
 import { FooterComponent } from '../footer/footer.component';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { ActivatedRoute, RouterLink, RouterLinkActive } from '@angular/router';
 import { Page } from '../interfaces/Page';
 import { AuthService } from '../auth/services/auth.service';
+import { SearchComponent } from "../search/search.component";
 
 @Component({
-  selector: 'app-lista-recetas',
-  standalone: true,
-  imports: [NavBarComponent, CommonModule, FooterComponent, RouterLink, RouterLinkActive],
-  templateUrl: './lista-recetas.component.html'
+    selector: 'app-lista-recetas',
+    standalone: true,
+    templateUrl: './lista-recetas.component.html',
+    imports: [NavBarComponent, CommonModule, FooterComponent, RouterLink, RouterLinkActive, SearchComponent]
 })
 
 export class ListaRecetasComponent implements OnInit {
@@ -29,26 +30,60 @@ export class ListaRecetasComponent implements OnInit {
   userRole: string | null = null;
   username: string | null = null;
 
-  constructor(private recipeService: RecipeService, private authService: AuthService) {}
+  currentFilterMethod: string | null = null;
+  favoriteRecipes: Recipe[] = [];
 
-  //Se inicializa al cargar el componente
+  @Input() method: string = '';
+
+  constructor(private recipeService: RecipeService, private authService: AuthService, private route: ActivatedRoute) {}
+
   ngOnInit(): void {
-    this.loadRecipes();
+    this.route.queryParams.subscribe(params => {
+      const filteringMethod = params['method'];
+      if (filteringMethod) {
+        this.currentFilterMethod = filteringMethod;
+        this.method = this.currentFilterMethod ?? '';
+        this.loadRecipes();
+      } else {
+        this.loadRecipes();
+      }
+    });
     this.userRole = this.getUserRole();
   }
+  
+  
+
+  
 
   //Metodo para cargar las recetas 
   loadRecipes(): void {
-    this.recipeService.listRecipes(this.numPage, this.order, this.asc).subscribe({
-      next: (page) => { //Nos devuelve el listado de receta junto al numero de pagina, order....
-        this.recipes = page.content;
-        this.pageable = page;
-      },
-      error: (error) => {
-        console.error('Error al cargar las recetas:', error);
-      }
-    });
+    if (this.method) {
+      console.log('Filtering recipes by method:', this.method);
+      this.recipeService.filterRecipesByMethod(this.method, this.numPage, this.order, this.asc)
+        .subscribe({
+          next: (page) => {
+            this.recipes = page.content;
+            this.pageable = page;
+          },
+          error: (error) => {
+            console.error('Error al cargar las recetas:', error);
+          }
+        });
+    } else {
+      console.log('Loading all recipes.');
+      this.recipeService.listRecipes(this.numPage, this.order, this.asc)
+        .subscribe({
+          next: (page) => {
+            this.recipes = page.content;
+            this.pageable = page;
+          },
+          error: (error) => {
+            console.error('Error al cargar las recetas:', error);
+          }
+        });
+    }
   }
+  
 
   //metodo para incrementar la pagina y avanzar a la siguiente
   nextPage(): void {
@@ -101,6 +136,63 @@ export class ListaRecetasComponent implements OnInit {
 
   getUserRole(): string | null {
     return this.authService.getUserRole();
+  }
+
+  agregarAFavoritos(idRecipe: number) {
+    const token = this.authService.getToken();
+    if (token) {
+        this.recipeService.agregarAFavoritos(idRecipe, token);
+        this.loadRecipes(); // Recargar recetas después de agregar a favoritos
+    } else {
+        console.error('Token del usuario no encontrado.');
+    }
+}
+
+eliminarFavorito(idRecipe: number) {
+    const token = this.authService.getToken();
+    if (token) {
+        this.recipeService.eliminarFavoritos(idRecipe, token);
+        this.loadRecipes(); // Recargar recetas después de eliminar de favoritos
+    } else {
+        console.error('Token del usuario no encontrado.');
+    }
+}
+
+
+  
+esFavorito(idRecipe: number) {
+  const token = this.authService.getToken();
+  if (token) {
+    return this.recipeService.esFavorito(idRecipe, token); // Proporciona el token como segundo argumento
+  } else {
+    console.error('Token del usuario no encontrado.');
+    return false;
+  }
+}
+
+  
+  getFavoritos() {
+    const token = this.authService.getToken();
+    if (token) {
+      return this.recipeService.obtenerFavoritos(token);
+    } else {
+      console.error('Token del usuario no encontrado.');
+      return [];
+    }
+  }
+  
+  pulsarFavorito(idRecipe: number) {
+    if (this.esFavorito(idRecipe)) {
+      this.eliminarFavorito(idRecipe);
+    } else {
+      this.agregarAFavoritos(idRecipe);
+    }
+  }
+  
+
+  onSearch(searchTerm: string): void {
+    this.method = searchTerm.trim().toLowerCase();
+    this.loadRecipes();
   }
 
 }

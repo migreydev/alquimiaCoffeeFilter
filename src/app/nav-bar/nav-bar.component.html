@@ -18,12 +18,15 @@
                     <li class="nav-item">
                         <a class="nav-link active text-warning" aria-current="page" routerLink="/recipe">Add Recipe</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link active text-warning" aria-current="page" [routerLink]="['/user', getUserId(), 'recipes']">See own recipes</a>
+                    </li>                    
                 }
                 <li class="nav-item">
-                    <form class="d-flex" role="search">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-warning" type="submit">Search</button>
-                    </form>
+                    <form class="d-flex" (ngSubmit)="search()">
+                        <input name="search" class="form-control me-2" type="search" placeholder="Search by method" aria-label="Search" [(ngModel)]="searchTerm">
+                        <button class="btn btn-outline-warning" type="submit" (click)="search()">Search</button>
+                    </form>                    
                 </li>
             </ul>
             <ul class="navbar-nav ms-auto">
