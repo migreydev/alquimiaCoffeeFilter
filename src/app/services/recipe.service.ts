@@ -24,14 +24,14 @@ export class RecipeService {
 
 
     listRecipes(page: number, sort: string, asc: boolean): Observable<Page> {
-        new HttpParams()
+      let params = new HttpParams()
           .set('page', String(page))
           .set('sort', sort)
           .set('asc', asc ? 'ASC' : 'DESC');
-        
-        
-        return this.http.get<any>(`${this.url}?pageNumber=${page}&sort=${sort}&asc=${asc}`)
-    }
+  
+      return this.http.get<any>(`${this.url}?pageNumber=${page}&sort=${sort}&asc=${asc}`, { params });
+  }
+  
 
     agregarAFavoritos(idRecipe: number, token: string): void {
       if (!this.favoritos[token]) {

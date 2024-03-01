@@ -215,4 +215,12 @@ esFavorito(idRecipe: number) {
     this.loadRecipes();
   }
 
+  //Metodo para ordenar por titulo
+  sortRecipesByTitle(): void {
+    this.order = 'title'; 
+    this.asc = !this.asc;
+    this.loadRecipes();
+  }
+  
+
 }
