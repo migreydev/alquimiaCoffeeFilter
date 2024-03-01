@@ -9,7 +9,8 @@ import { RecipeService } from '../services/recipe.service';
   selector: 'app-nav-bar',
   standalone: true,
   imports: [RouterLink, RouterLinkActive, CommonModule, RouterModule, FormsModule],
-  templateUrl: './nav-bar.component.html'
+  templateUrl: './nav-bar.component.html',
+  styleUrl: './nav-bar.component.css'
 })
 export class NavBarComponent implements OnInit{
   

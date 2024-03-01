@@ -6,7 +6,8 @@ import { Router } from '@angular/router';
   selector: 'app-search',
   standalone: true,
   imports: [FormsModule],
-  templateUrl: './search.component.html'
+  templateUrl: './search.component.html',
+  styleUrl: './search.component.css'
 })
 export class SearchComponent implements OnInit{
   
