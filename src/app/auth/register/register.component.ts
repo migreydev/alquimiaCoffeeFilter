@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ValidatorsService } from '../services/validators.service';
+import { EmailValidatorService } from '../services/email-validator.service';
 
 @Component({
     selector: 'app-register',
@@ -22,13 +23,14 @@ export class RegisterComponent implements OnInit {
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private validatorsService: ValidatorsService, 
-    private router: Router
+    private router: Router,
+    private emailValidatorService: EmailValidatorService
   ) {}
 
   ngOnInit(): void {
     this.registerForm = this.formBuilder.group({
       name: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
+      email: ['', [Validators.required, Validators.email, this.emailValidatorService.emailValidator()]], 
       username: ['', [Validators.required, this.validatorsService.usernameValidator()]], 
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', Validators.required],

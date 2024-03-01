@@ -18,18 +18,27 @@
               <label for="inputEmail" class="form-label">Email</label>
               <input type="email" class="form-control" id="inputEmail" formControlName="email" placeholder="Enter your email address" required>
             </div>
-
+            @if(invalidField('email') && registerForm.get('email')){
+              <span class="form-text text-danger">
+                Incorrect email format
+              </span>
+            }           
             <!-- Username -->
             <div class="mb-3">
               <label for="inputUsername" class="form-label">Username</label>
               <input type="text" class="form-control" id="inputUsername" formControlName="username" placeholder="Enter your username" required>
             </div>
+            @if(invalidField('inputUsername') && registerForm.get('username')){
+              <span class="form-text text-danger">
+                Incorrect username format
+              </span>
+            }   
             <!-- Contraseña -->
             <div class="mb-3">
               <label for="inputPassword" class="form-label">Password</label>
               <input type="password" class="form-control" id="inputPassword" formControlName="password" placeholder="Enter your password" required>
             </div>
-            @if (invalidField('confirmPassword')) {
+            @if (invalidField('inputPassword')) {
               <span class="form-text text-danger">
                 Passwords must be the same
               </span>
