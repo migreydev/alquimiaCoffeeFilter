@@ -2,6 +2,11 @@
 <div class="container my-5">
     <div class="row">
         <div class="col-lg-8 mx-auto">
+            @if(errorMessage){
+                <div class="alert alert-danger">
+                    {{ errorMessage }}
+                </div>
+            }
             <div class="card border-warning mb-3">
                 <div class="card-header bg-white text-center">
                     <h4>Login</h4>
@@ -12,11 +17,21 @@
                         <div class="form-group">
                             <label for="username">Username</label>
                             <input type="text" class="form-control mb-3" id="username" formControlName="username" placeholder="Enter username" required>
+                            @if(usernameError){
+                                <div class="text-danger">
+                                    {{ usernameError }}
+                                </div>
+                            }
                         </div>
                         <!-- Password -->
                         <div class="form-group">
                             <label for="password">Password</label>
                             <input type="password" class="form-control mb-3" id="password" formControlName="password" placeholder="Enter password" required>
+                            @if(loginForm.get('password')!.value.length < 6 && loginForm.get('password')!.touched){
+                                <div class="text-danger">
+                                    The password must be at least 6 characters long.
+                                </div>
+                            }
                         </div>
                         <div class="form-group">
                             <button type="submit" class="btn btn-warning btn-block">Login</button>

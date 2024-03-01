@@ -12,7 +12,9 @@ import { Router, RouterLink } from '@angular/router';
   templateUrl: './login.component.html'
 })
 export class LoginComponent {
-
+  errorMessage: string = '';
+  usernameError: string = '';
+  passwordError: string = '';
   loginForm: FormGroup;
 
   constructor(
@@ -22,7 +24,7 @@ export class LoginComponent {
   ) {
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.required], 
-      password: ['', Validators.required]
+      password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
 
@@ -35,13 +37,17 @@ export class LoginComponent {
       };
       this.authService.login(credentials).subscribe({
         next: () => {
-          this.router.navigate(['/']); // Redirige al usuario después del inicio de sesión
+          this.router.navigate(['/']); 
         },
         error: (error) => {
-          console.error('Error', error);
-          
+          if (error.message) {
+            this.errorMessage = error.message;
+          } else if (error) {
+            this.errorMessage = error;
+          }
         }
       });
     }
   }
+
 }

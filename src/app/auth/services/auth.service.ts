@@ -42,17 +42,21 @@ export class AuthService {
         return this.http.post(this.apiUrlLogin, credentials, { responseType: 'text' }).pipe(
           tap((token: string) => {
             this.storageUser({ token });
-            console.log('Token recibido:', token);
+            console.log('Token:', token);
           }),
           catchError(error => {
-            console.error('Error durante el login:', error);
-            return throwError(() => new Error('Login fallido: ' + error.message));
+            let errorMessage = 'An unexpected failed to login, incorrect username or password';
+            if (error.error instanceof ErrorEvent) {
+                // Error del lado cliente o de red
+                console.error('Error:', error.error.message);
+            } else {
+                console.error(`Error: ${error.status}`, error.error);
+                errorMessage = error.error.message || errorMessage;
+            }
+            return throwError(() => new Error(errorMessage));
           })
         );
-      }
-      
-      
-      
+    }
   
     validateToken(): Observable<boolean> {
         const url = `${this.apiUrlLogin}/renew`;
