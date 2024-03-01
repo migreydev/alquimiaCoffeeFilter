@@ -109,7 +109,7 @@ export class RecipeService {
     }
 
 
-    
+    //Metodo para filtar por metodo
     filterRecipesByMethod(method: string, page: number, sort: string, asc: boolean): Observable<Page> {
       const url = `${this.url}/filter`;
       const params = new HttpParams()
@@ -121,19 +121,17 @@ export class RecipeService {
       
       return this.http.get<Page>(url, { params });
     }
-    
- 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 
+    //Metodo para filtrar por titulo 
+    filterRecipesByTitle(title: string, page: number, sort: string, asc: boolean): Observable<Page>{
+      const url = `${this.url}/title`;
+      const params = new HttpParams()
+        .set('title', title)
+        .set('pageNumber', String(page))
+        .set('pageSize', '10')
+        .set('order', sort)
+        .set('direction', asc ? 'true' : 'false');
 
+      return this.http.get<Page>(url, {params});
+    }
 }

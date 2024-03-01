@@ -34,6 +34,7 @@ export class ListaRecetasComponent implements OnInit {
   favoriteRecipes: Recipe[] = [];
 
   @Input() method: string = '';
+  @Input() title: string = '';
 
   constructor(private recipeService: RecipeService, private authService: AuthService, private route: ActivatedRoute) {}
 
@@ -58,7 +59,6 @@ export class ListaRecetasComponent implements OnInit {
   //Metodo para cargar las recetas 
   loadRecipes(): void {
     if (this.method) {
-      console.log('Filtering recipes by method:', this.method);
       this.recipeService.filterRecipesByMethod(this.method, this.numPage, this.order, this.asc)
         .subscribe({
           next: (page) => {
@@ -69,8 +69,18 @@ export class ListaRecetasComponent implements OnInit {
             console.error('Error al cargar las recetas:', error);
           }
         });
-    } else {
-      console.log('Loading all recipes.');
+    } else if (this.title){
+      this.recipeService.filterRecipesByTitle(this.title, this.numPage, this.order, this.asc)
+        .subscribe({
+          next: (page) => {
+            this.recipes = page.content;
+            this.pageable = page;
+          },
+          error: (error) => {
+            console.error('Error al cargar las recetas', error);
+          }
+        });
+    }else {
       this.recipeService.listRecipes(this.numPage, this.order, this.asc)
         .subscribe({
           next: (page) => {
@@ -84,7 +94,6 @@ export class ListaRecetasComponent implements OnInit {
     }
   }
   
-
   //metodo para incrementar la pagina y avanzar a la siguiente
   nextPage(): void {
     this.numPage++;
@@ -130,42 +139,45 @@ export class ListaRecetasComponent implements OnInit {
     });
   }
 
+  //Metodo para obtener el username
   getUsername(): string | null {
     return this.authService.getUsername();
   }
 
+  //Metodo para obtener el rol
   getUserRole(): string | null {
     return this.authService.getUserRole();
   }
 
+  //Agrega a favorito una receta
   agregarAFavoritos(idRecipe: number) {
     const token = this.authService.getToken();
     if (token) {
         this.recipeService.agregarAFavoritos(idRecipe, token);
-        this.loadRecipes(); // Recargar recetas después de agregar a favoritos
+        this.loadRecipes(); // Recargar recetas despues de agregar a favoritos
     } else {
         console.error('Token del usuario no encontrado.');
     }
 }
 
+//Elimina de facvorito una receta
 eliminarFavorito(idRecipe: number) {
     const token = this.authService.getToken();
     if (token) {
         this.recipeService.eliminarFavoritos(idRecipe, token);
-        this.loadRecipes(); // Recargar recetas después de eliminar de favoritos
+        this.loadRecipes(); // Recargar recetas despues de eliminar de favoritos
     } else {
-        console.error('Token del usuario no encontrado.');
+        console.error('Token no encontrado.');
     }
 }
 
-
-  
+//Muestra las recetas favoritas
 esFavorito(idRecipe: number) {
   const token = this.authService.getToken();
   if (token) {
-    return this.recipeService.esFavorito(idRecipe, token); // Proporciona el token como segundo argumento
+    return this.recipeService.esFavorito(idRecipe, token);
   } else {
-    console.error('Token del usuario no encontrado.');
+    console.error('Token no encontrado.');
     return false;
   }
 }
@@ -181,6 +193,7 @@ esFavorito(idRecipe: number) {
     }
   }
   
+  //Metodo para pulsar el corazon de favorito
   pulsarFavorito(idRecipe: number) {
     if (this.esFavorito(idRecipe)) {
       this.eliminarFavorito(idRecipe);
@@ -190,8 +203,15 @@ esFavorito(idRecipe: number) {
   }
   
 
+  //Funcion para buscar por metodo
   onSearch(searchTerm: string): void {
     this.method = searchTerm.trim().toLowerCase();
+    this.loadRecipes();
+  }
+
+  //Metodo para buscar por titulo
+  onSearchTitle(searchTerm: string): void {
+    this.title = searchTerm.trim().toLowerCase();
     this.loadRecipes();
   }
 

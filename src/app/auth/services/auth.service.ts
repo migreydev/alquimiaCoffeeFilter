@@ -23,7 +23,7 @@ export class AuthService {
         return { ...this._user };
     }
   
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient, private router: Router) { }
   
     private storageUser(resp: any): void {
         const token = resp.token;
@@ -76,6 +76,7 @@ export class AuthService {
   
     logout(): void {
         localStorage.removeItem('token');
+        this.router.navigate(['/']);
     }
   
     getToken(): string | null {

@@ -18,6 +18,7 @@
               <label for="inputEmail" class="form-label">Email</label>
               <input type="email" class="form-control" id="inputEmail" formControlName="email" placeholder="Enter your email address" required>
             </div>
+
             <!-- Username -->
             <div class="mb-3">
               <label for="inputUsername" class="form-label">Username</label>
@@ -28,13 +29,24 @@
               <label for="inputPassword" class="form-label">Password</label>
               <input type="password" class="form-control" id="inputPassword" formControlName="password" placeholder="Enter your password" required>
             </div>
+            @if (invalidField('confirmPassword')) {
+              <span class="form-text text-danger">
+                Passwords must be the same
+              </span>
+            }
             <!-- Confirmar contraseña -->
             <div class="mb-3">
               <label for="confirmPassword" class="form-label">Confirm Password</label>
               <input type="password" class="form-control" id="confirmPassword" formControlName="confirmPassword" placeholder="Confirm your password" required>
             </div>
+            @if (invalidField('confirmPassword')) {
+              <span class="form-text text-danger">
+                Passwords must be the same
+              </span>
+            }
+            <br><br>
             <!-- Botón de registro -->
-            <button type="submit" class="btn btn-primary">Register</button>
+            <button type="submit" class="btn btn-warning">Register</button>
           </form>
         </div>
       </div>

@@ -6,6 +6,7 @@ import { AuthService } from '../services/auth.service';
 import Swal from 'sweetalert2';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ValidatorsService } from '../services/validators.service';
 
 @Component({
     selector: 'app-register',
@@ -20,6 +21,7 @@ export class RegisterComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
+    private validatorsService: ValidatorsService, 
     private router: Router
   ) {}
 
@@ -27,16 +29,18 @@ export class RegisterComponent implements OnInit {
     this.registerForm = this.formBuilder.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      username: ['', Validators.required],
+      username: ['', [Validators.required, this.validatorsService.usernameValidator()]], 
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', Validators.required],
+    }, {
+      validators: [this.validatorsService.passwordMatchValidator('password', 'confirmPassword')] 
     });
   }
 
   onSubmit(): void {
     if (this.registerForm.valid) {
       const { name, email, username, password } = this.registerForm.value;
-      const rol = 'user'; // Definir el rol aquí
+      const rol = 'user';
       this.authService.register({ name, email, username, password, rol }).subscribe(
         () => {
           Swal.fire({
@@ -59,4 +63,14 @@ export class RegisterComponent implements OnInit {
       );
     }
   }
+
+  invalidField(field: string): boolean {
+    const control = this.registerForm.get(field);
+    if (control) {
+      return control.invalid && control.touched;
+    } else {
+      return false;
+    }
+  }
+  
 }

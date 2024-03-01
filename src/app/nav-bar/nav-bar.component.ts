@@ -56,8 +56,6 @@ export class NavBarComponent implements OnInit{
     return this.authService.getUserId();
   }
 
-  
-  
 
 
 
