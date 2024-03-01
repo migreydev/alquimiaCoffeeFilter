@@ -5,18 +5,26 @@ import { ActivatedRoute, RouterLink, RouterLinkActive } from '@angular/router';
 import { NavBarComponent } from "../../nav-bar/nav-bar.component";
 import { FooterComponent } from "../../footer/footer.component";
 import { RecipeService } from '../../services/recipe.service';
+import { DataTablesModule } from 'angular-datatables';
+
 
 @Component({
     selector: 'app-recipes-by-user',
     standalone: true,
     templateUrl: './recipes-by-user.component.html',
-    imports: [NavBarComponent, FooterComponent, RouterLink, RouterLinkActive]
+    imports: [NavBarComponent, FooterComponent, RouterLink, RouterLinkActive, DataTablesModule]
 })
 export class RecipesByUserComponent implements OnInit {
 
   userRecipes: Recipe[] = [];
   userName !: string;
   userId !: number;
+
+  dtOptions: any = {
+    pagingType: 'full_numbers',
+    pageLength: 10,
+    processing: true
+  };
 
   constructor(private authService: AuthService, private route: ActivatedRoute, private recipeService: RecipeService) {}
   
@@ -42,6 +50,7 @@ export class RecipesByUserComponent implements OnInit {
       this.userName = username; 
     }
   }
+
 
    //metodo para eliminar una receta 
   deleteRecipe(id: number) {
