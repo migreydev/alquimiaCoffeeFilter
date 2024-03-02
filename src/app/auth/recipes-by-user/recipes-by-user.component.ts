@@ -14,6 +14,7 @@ import { DataTablesModule } from 'angular-datatables';
     templateUrl: './recipes-by-user.component.html',
     imports: [NavBarComponent, FooterComponent, RouterLink, RouterLinkActive, DataTablesModule]
 })
+
 export class RecipesByUserComponent implements OnInit {
 
   userRecipes: Recipe[] = [];
@@ -30,9 +31,12 @@ export class RecipesByUserComponent implements OnInit {
   
   ngOnInit(): void {
     this.userId = this.authService.getUserId();
+    this.loadUserRecipes();
+    
   
     // Asegúrate de que userId sea un número válido y no sea 0.
     if (this.userId > 0) {
+      this.loadUserRecipes();
       this.authService.getUserRecipes().subscribe({
         next: (recipes: Recipe[]) => {
           this.userRecipes = recipes;
@@ -42,7 +46,7 @@ export class RecipesByUserComponent implements OnInit {
         }
       });
     } else {
-      console.error('No se pudo obtener el ID de usuario');
+      console.error('Error');
     }
   
     const username = this.authService.getUsername();
@@ -51,17 +55,33 @@ export class RecipesByUserComponent implements OnInit {
     }
   }
 
-
-   //metodo para eliminar una receta 
-  deleteRecipe(id: number) {
-    this.recipeService.deleteRecipe(id).subscribe({ //se subscribe al metodo eliminar receta donde se le pasa el id de la receta
-      next: (response) => {
+  loadUserRecipes(): void {
+    this.authService.getUserRecipes().subscribe({
+      next: (recipes: Recipe[]) => {
+        this.userRecipes = recipes;
       },
-      error: (err) => {
-        console.error(err);
+      error: (error) => {
+        console.error('Error', error);
       }
     });
   }
+
+
+  deleteRecipe(id: number): void {
+  this.recipeService.deleteRecipe(id).subscribe({
+    next: () => {
+      this.loadUserRecipes()
+    },
+    error: (error) => {
+      console.error('Error al eliminar la receta:', error);
+    }
+  });
+}
+
+  
+  
+  
+  
   
 
 }

@@ -7,14 +7,17 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Origin } from '../interfaces/Origin';
 import { AuthService } from '../auth/services/auth.service';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
     selector: 'app-add-receta',
     standalone: true,
     templateUrl: './add-receta.component.html',
-    imports: [FooterComponent, NavBarComponent, CommonModule, FormsModule]
+    imports: [FooterComponent, NavBarComponent, CommonModule, FormsModule, NgSelectModule],
+    styleUrl: './add-receta.component.css'
 })
 export class AddRecetaComponent implements OnInit {
+
   origins: Origin[] = []; //array de origenes
   username: string  = "";
   email: string = "";
@@ -35,14 +38,13 @@ export class AddRecetaComponent implements OnInit {
   successMessage: string = '';
   errorMessage: string = '';
 
-  
 
   constructor(private recipeService: RecipeService, private authService: AuthService) {}
 
-  //Se ejecuta automaticamente cuando se inicializa el componente y llama al metodo cargar origenes cafe
+
   ngOnInit(): void { 
       this.loadOrigins();
-      this.newRecipe.userId = this.authService.getUserId() || 1;
+      this.newRecipe.userId = this.authService.getUserId() || 0;
       this.newRecipe.userName = this.authService.getUsername() || "";
       this.newRecipe.userEmail = this.authService.getUserEmail() || "";
   }
@@ -83,7 +85,7 @@ export class AddRecetaComponent implements OnInit {
   private resetForm(): void {
       this.newRecipe = {
           id: 0,
-          userId: 1,
+          userId: this.idUser,
           userName: this.username,
           userEmail: this.email,
           title: '', 
@@ -104,4 +106,6 @@ export class AddRecetaComponent implements OnInit {
     const user = this.authService.user;
     return user ? user.email : null;
   }
+
+
 }

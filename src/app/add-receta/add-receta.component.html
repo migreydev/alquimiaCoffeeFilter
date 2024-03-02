@@ -34,13 +34,17 @@
                             </select>
                         </div>
                         <!-- Origin -->
-                        <div class="form-group">
-                            <label for="origin">Origin</label>
-                            <select multiple id="origin" name="originIds" class="form-control" [(ngModel)]="newRecipe.originIds" size="5" required>
-                                <option value="">Select origins</option>
-                                <option *ngFor="let origin of origins" [value]="origin.id">{{ origin.country }}</option>
-                            </select>
-                        </div>                                      
+                        <label for="origin">Origin</label>
+                        <ng-select [items]="origins"
+                                bindLabel="country"
+                                bindValue="id"
+                                placeholder="Select origins"
+                                [(ngModel)]="newRecipe.originIds"
+                                [multiple]="true"
+                                name="originIds"
+                                class="custom-ng-select">
+                        </ng-select>
+            
                         <!-- Description -->
                         <div class="form-group">
                             <label for="description">Description</label>

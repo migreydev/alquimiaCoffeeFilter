@@ -54,7 +54,6 @@ export class ListaRecetasComponent implements OnInit {
   
   
 
-  
 
   //Metodo para cargar las recetas 
   loadRecipes(): void {
