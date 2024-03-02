@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Recipe } from '../../interfaces/Recipe';
 import { AuthService } from '../services/auth.service';
 import { ActivatedRoute, RouterLink, RouterLinkActive } from '@angular/router';
@@ -42,7 +42,7 @@ export class RecipesByUserComponent implements OnInit {
           this.userRecipes = recipes;
         },
         error: (error) => {
-          console.error('Error al obtener las recetas del usuario:', error);
+          console.error('Error', error);
         }
       });
     } else {
@@ -68,20 +68,17 @@ export class RecipesByUserComponent implements OnInit {
 
 
   deleteRecipe(id: number): void {
-  this.recipeService.deleteRecipe(id).subscribe({
-    next: () => {
-      this.loadUserRecipes()
-    },
-    error: (error) => {
-      console.error('Error al eliminar la receta:', error);
-    }
-  });
-}
+    this.recipeService.deleteRecipe(id).subscribe({
+      next: () => {
+        const recipe = this.userRecipes.find(recipe => recipe.id === id);
+        if (recipe) {
+          recipe.deleted = 1;
+        }
+      },
+      error: (error) => {
 
-  
-  
-  
-  
-  
-
+        console.error(`Error`, error);
+      }
+    });
+  }
 }
