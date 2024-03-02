@@ -1,0 +1,33 @@
+
+.card {
+    margin: 10px;
+  }
+  
+  /* Estilo para tablets */
+  @media (min-width: 768px) {
+    .card {
+      margin: 20px;
+    }
+  }
+  
+  
+  @media (min-width: 992px) {
+    .card {
+      margin: 30px;
+    }
+  }
+  
+  /* Estilo base de la tarjeta */
+.card.border-warning {
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.gallery-card {
+  transition: transform 0.5s ease-out; 
+}
+
+.gallery-card:hover {
+  transform: scale(1.02); 
+  z-index: 10; 
+}
+

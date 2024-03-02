@@ -1,0 +1,16 @@
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+}
+
+  .mx-auto {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2rem; 
+    width: 80%;
+}
+
+

@@ -38,5 +38,12 @@
   margin-left: 15px; 
 }
 
+.dropdown-menu-black {
+  background-color: #252525; 
+}
+
+.dropdown-menu-black .dropdown-item:hover, .dropdown-menu-black .dropdown-item:focus {
+  background-color: #555; 
+}
 
 

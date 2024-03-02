@@ -33,13 +33,13 @@
             </td>
             <td>
                 @if(!recipe.deleted){
-                <button class="btn btn-lg btn-warning me-2" [routerLink]="['/recipe/detail', recipe.id]" type="button">
+                <button class="btn btn-sm btn-warning me-2" [routerLink]="['/recipe/detail', recipe.id]" type="button">
                   <img src="../../assets/icons/informacion.png" alt="More Info" style="height: 20px; width: 20px;"> More Info
                 </button> 
-                <button class="btn btn-lg btn-warning me-2" [routerLink]="['/recipe', recipe.id]" type="button">
+                <button class="btn btn-sm btn-warning me-2" [routerLink]="['/recipe', recipe.id]" type="button">
                   <img src="../../assets/icons/editar.png" alt="More Info" style="height: 20px; width: 20px;"> Edit
                 </button>
-                <button class="btn btn-lg btn-warning me-2" (click)="deleteRecipe(recipe.id)" type="button">
+                <button class="btn btn-sm btn-warning me-2" (click)="deleteRecipe(recipe.id)" type="button">
                   <img src="../../assets/icons/borrar.png" alt="More Info" style="height: 20px; width: 20px;"> Delete
                 </button> 
               }
@@ -48,4 +48,5 @@
         }
         </tbody>
       </table>
-    <app-footer></app-footer>
+    </div>
+  <app-footer></app-footer>

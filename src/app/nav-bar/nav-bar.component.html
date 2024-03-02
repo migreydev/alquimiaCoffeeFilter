@@ -15,16 +15,21 @@
                     <a class="nav-link active text-warning" routerLink="/recipes" aria-current="page" href="#">List Recipes</a>
                 </li>
                 @if(userRole === "user" || userRole === "admin"){
-                    <li class="nav-item">
-                        <a class="nav-link active text-warning" aria-current="page" routerLink="/recipe">Add Recipe</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active text-warning" aria-current="page" [routerLink]="['/user', getUserId(), 'recipes']">See own recipes</a>
-                    </li>                    
+                    <li class="dropdown">
+                        <a class="nav-link dropdown-toggle text-warning" type="button" aria-haspopup="true" 
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                          My Space
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-black">
+                          <li><a class="dropdown-item text-warning" routerLink="/recipe">Add Recipe</a></li>
+                          <li><a class="dropdown-item text-warning" [routerLink]="['/user', getUserId(), 'recipes']">See own recipes</a></li>
+                          <li><a class="dropdown-item text-warning" routerLink="/recipesFavourite">Favourite Recipes</a></li>
+                        </ul>
+                      </li>
                 }
                     <li class="nav-item">
                         <form class="d-flex search-container" (ngSubmit)="search()">
-                            <input name="search" class="form-control search-input" type="search" placeholder="Search by method" aria-label="Search" [(ngModel)]="searchTerm">
+                            <input name="search" style="border: 2px solid #ffc107; border-radius: 0.25rem;" class="form-control search-input" type="search" placeholder="Search by method" aria-label="Search" [(ngModel)]="searchTerm">
                             <img src="../../assets/icons/lupa.png" alt="Search" class="search-icon">
                             <button class="btn btn-outline-warning search-button" type="submit">Search</button>
                         </form>                        
@@ -33,7 +38,7 @@
             <ul class="navbar-nav ms-auto">
                 <ng-container *ngIf="isLoggedIn(); else loggedOut">
                     <li class="nav-item">
-                        <img src="../../assets/icons/contacto.png" alt="Profile" class="nav-icon">
+                        <img src="../../assets/icons/contacto.png"  alt="Profile" class="nav-icon" >
                         <span class="nav-link text-warning">{{username}} - {{userRole}}</span>
                     </li>            
                     <li class="nav-item logout-item">

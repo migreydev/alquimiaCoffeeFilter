@@ -42,14 +42,37 @@
 
 /* Estilo para las imágenes en 'Share Your Brews' */
 .share-img-top {
-    width: 100%; /* Asegura que la imagen ocupe el ancho completo de la tarjeta */
-    height: auto; /* Ajusta la altura automáticamente para mantener la relacion de aspecto */
-    object-fit: cover; /* Asegura que la imagen cubra el area sin perder su relacion de aspecto */
-    max-height: 220px; /* Define una altura máxima más pequeña para estas imágenes */
+    width: 100%; 
+    height: auto; 
+    object-fit: cover;
+    max-height: 220px; 
 }
 
 .text-warning {
     color: #ffc107;
-    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    text-shadow: -0.5px -0.5px 0 #000, 0.5px -0.5px 0 #000, -0.5px 0.5px 0 #000, 0.5px 0.5px 0 #000;
 }
 
+
+.gallery-card {
+    transition: transform 0.3s ease;
+  }
+  
+  /* Estilo cuando el cursor pasa sobre las tarjetas */
+.gallery-card:hover {
+    transform: scale(1.05); 
+    z-index: 10; 
+}
+
+p, .card-text {
+    font-size: 1.1rem;
+  }
+
+
+  
+  @media (max-width: 768px) {
+    p, .card-text {
+      font-size: 1.1rem; 
+    }
+  }
+  

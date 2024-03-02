@@ -6,10 +6,11 @@
       <button class="btn btn-warning" (click)="sortRecipesByTitle()">
         <img src="../../assets/icons/orden-de-clasificacion.png" alt="Sort" style="height: 20px; width: 20px;"> Sort by Title
       </button>      
-    </div>
+    </div>    
     <!-- Tarjetas -->
-    <div class="d-flex flex-wrap justify-content-center">
-      <div *ngFor="let recipe of recipes" class="card border-warning mb-3" style="width: 100%; max-width: 800px; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,.2);">
+    <div class="d-flex flex-wrap justify-content-center"> 
+      @for (recipe of recipes; track $index) {
+      <div class="card border-warning mb-3 gallery-card" style="width: 100%; max-width: 800px; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,.2);">
         @if (!recipe.deleted) { 
           <div class="row g-0">
             <div class="col-md-4" style="padding-right: 15px;">
@@ -63,6 +64,7 @@
             </div>
           }
         </div>
+      }
     </div>
 
     <nav aria-label="Page navigation example" class="d-flex justify-content-center mt-4">
@@ -70,29 +72,29 @@
           <!-- First Page Button -->
           <li class="page-item" [class.disabled]="numPage <= 0">
             <button class="page-link ms-2" (click)="firstPage()" aria-label="First" style="background-color: #ffc107; border-color: #ffc107;">
-              <span aria-hidden="true" style="color: #fffb27;">&laquo;&laquo;</span>
+              <span aria-hidden="true" style="color: #000000;">&laquo;&laquo;</span>
             </button>
           </li>
           <!-- Previous Page Button -->
           <li class="page-item" [class.disabled]="numPage <= 0">
             <button class="page-link ms-2" (click)="prevPage()" aria-label="Previous" style="background-color: #ffc107; border-color: #ffc107;">
-              <span aria-hidden="true" style="color: #fffb27;">&laquo;</span>
+              <span aria-hidden="true" style="color: #000000;">&laquo;</span>
             </button>
           </li>
           <li class="page-item">
-            <span class="page-link ms-2">{{ numPage}}</span>
+            <span class="page-link ms-2" style="color: #000000;">{{ numPage}}</span>
         </li>
           <!-- Next Page Button -->
           <li class="page-item">
             <button class="page-link ms-2" (click)="nextPage()" aria-label="Next" style="background-color: #ffc107; border-color: #ffc107;">
-              <span aria-hidden="true" style="color: #fffb27;">&raquo;</span>
+              <span aria-hidden="true" style="color: #000000;">&raquo;</span>
             </button>
           </li>
         
           <!-- Last Page Button -->
           <li class="page-item">
             <button class="page-link ms-2" (click)="lastPage()" aria-label="Last" style="background-color: #ffc107; border-color: #ffc107;">
-              <span aria-hidden="true" style="color: #fffb27;">&raquo;&raquo;</span>
+              <span aria-hidden="true" style="color: #000000;">&raquo;&raquo;</span>
             </button>
           </li>
         </ul>

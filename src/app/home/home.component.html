@@ -33,13 +33,29 @@
             </div>
         </div>        
     </div>
-    
     <main role="main" class="container">
         <section class="gallery mt-5">
             <h2 class="text-warning">Gallery & Images Coffee Recipes</h2>
+            <div class="col-lg-12">
+                <p class="text-justify">
+                    Discover the art of coffee with our diverse range of brewing methods, each offering a unique way to experience specialty coffee:
+                </p>
+                <ul>
+                    <li><strong>Origami:</strong> Inspired by Japanese paper folding, perfect for those who love to experiment.</li>
+                    <li><strong>Orea:</strong> Focuses on simplicity and sustainability for a clean, clear taste.</li>
+                    <li><strong>French Press:</strong> Classic steeping method for a full-bodied, rich flavor.</li>
+                    <li><strong>AeroPress:</strong> Quick and versatile, delivering a smooth, rich cup.</li>
+                    <li><strong>April:</strong> Precision brewing for a balanced and nuanced flavor.</li>
+                    <li><strong>V60:</strong> Popular for its uniform extraction, yielding a clean, flavorful cup.</li>
+                </ul>
+                <p class="text-justify">
+                    Clicking on each image filters the gallery by the dripper category, showcasing a curated selection of recipes.
+                </p>
+            </div>
+            
             <div class="row">
                 <div class="col-md-4" (click)="setFilterMethod('Origami')">
-                    <div class="card mb-4 shadow-sm">
+                    <div class="card gallery-card mb-4 shadow-sm">
                         <img src="../../assets/origami.png" class="bd-placeholder-img card-img-top" width="100%" height="500" alt="Origami">
                         <div class="card-body">
                             <p class="card-text">Origami</p>
@@ -47,7 +63,7 @@
                     </div>
                 </div>
                 <div class="col-md-4" (click)="setFilterMethod('Orea')">
-                    <div class="card mb-4 shadow-sm">
+                    <div class="card gallery-card mb-4 shadow-sm">
                         <img src="../../assets/orea.jpg" class="card-img-top" alt="Orea" height="200">
                         <div class="card-body">
                             <p class="card-text">Orea</p>
@@ -55,7 +71,7 @@
                     </div>
                 </div>
                 <div class="col-md-4" (click)="setFilterMethod('French Press')">
-                    <div class="card mb-4 shadow-sm">
+                    <div class="card gallery-card mb-4 shadow-sm">
                         <img src="../../assets/french.jpg" class="card-img-top" alt="French Press" height="500">
                         <div class="card-body">
                             <p class="card-text">French Press</p>
@@ -63,7 +79,7 @@
                     </div>
                 </div>
                 <div class="col-md-4" (click)="setFilterMethod('AeroPress')">
-                    <div class="card mb-4 shadow-sm">
+                    <div class="card gallery-card mb-4 shadow-sm">
                         <img src="../../assets/aeropress.png" class="card-img-top" alt="AeroPress" height="100">
                         <div class="card-body">
                             <p class="card-text">AeroPress</p>
@@ -71,7 +87,7 @@
                     </div>
                 </div>
                 <div class="col-md-4" (click)="setFilterMethod('April')">
-                    <div class="card mb-4 shadow-sm">
+                    <div class="card gallery-card mb-4 shadow-sm">
                         <img src="../../assets/sibarist11044.jpg" class="card-img-top" alt="April" height="180">
                         <div class="card-body">
                             <p class="card-text">April</p>
@@ -79,7 +95,7 @@
                     </div>
                 </div>
                 <div class="col-md-4" (click)="setFilterMethod('V60')">
-                    <div class="card mb-4 shadow-sm">
+                    <div class="card gallery-card mb-4 shadow-sm">
                         <img src="../../assets/v60.png" class="card-img-top" alt="V60" height="300">
                         <div class="card-body">
                             <p class="card-text">V60</p>
@@ -106,22 +122,6 @@
                     <div class="card mb-4 shadow-sm">
                         <img src="../../assets/filtro.jpeg" class="share-img-top" alt="Filtro">
                     </div>
-                </div>
-            </div>
-            <div class="container mt-4">
-                <h2 class="mb-0 text-warning">Your favourites recipes</h2>
-                <div class="row">
-                    @for (recipe of favoriteRecipes; track $index) {
-                    <div class="col-md-4">
-                        <div class="card mb-4 shadow-sm">
-                            <img [src]="recipe.image" class="card-img-top">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ recipe.title }}</h5>
-                                <p class="card-text">{{ recipe.filteringMethod }}</p>
-                            </div>
-                        </div>
-                    </div>
-                    }
                 </div>
             </div>
         </section>        

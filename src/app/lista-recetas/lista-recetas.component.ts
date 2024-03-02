@@ -13,7 +13,8 @@ import { SearchComponent } from "../search/search.component";
     selector: 'app-lista-recetas',
     standalone: true,
     templateUrl: './lista-recetas.component.html',
-    imports: [NavBarComponent, CommonModule, FooterComponent, RouterLink, RouterLinkActive, SearchComponent]
+    imports: [NavBarComponent, CommonModule, FooterComponent, RouterLink, RouterLinkActive, SearchComponent],
+    styleUrl: './lista-recetas.component.css'
 })
 
 export class ListaRecetasComponent implements OnInit {
@@ -26,6 +27,8 @@ export class ListaRecetasComponent implements OnInit {
   pageSize = 4;
   order = 'id';
   asc = true;
+
+
 
   userRole: string | null = null;
   username: string | null = null;
@@ -77,6 +80,7 @@ export class ListaRecetasComponent implements OnInit {
           },
           error: (error) => {
             console.error('Error al cargar las recetas', error);
+      
           }
         });
     }else {
