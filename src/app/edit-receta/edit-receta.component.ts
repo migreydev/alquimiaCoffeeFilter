@@ -7,12 +7,13 @@ import { Recipe } from '../interfaces/Recipe';
 import { RecipeService } from '../services/recipe.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
     selector: 'app-edit-receta',
     standalone: true,
     templateUrl: './edit-receta.component.html',
-    imports: [FooterComponent, NavBarComponent, CommonModule, FormsModule]
+    imports: [FooterComponent, NavBarComponent, CommonModule, FormsModule, NgSelectModule]
 })
 export class EditRecetaComponent implements OnInit{
 

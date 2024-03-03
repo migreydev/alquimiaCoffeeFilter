@@ -3,7 +3,7 @@
     <div class="d-flex justify-content-between mb-4 align-items-center">
         <h3 class="mb-0">Recipe List</h3>
       <app-search (searchEvent)="onSearchTitle($event)"></app-search>
-      <button class="btn btn-warning" (click)="sortRecipesByTitle()">
+      <button class="btn btn-warning btn-hover-effect" (click)="sortRecipesByTitle()">
         <img src="../../assets/icons/orden-de-clasificacion.png" alt="Sort" style="height: 20px; width: 20px;"> Sort by Title
       </button>      
     </div>    
@@ -31,22 +31,22 @@
                         </div>
                         <div class="d-flex justify-content-between align-items-center mt-2">
                             <small><strong>Email: </strong>{{ recipe.userEmail }}</small> 
-                            <small *ngIf="recipe.deleted">Not available</small>
                         </div>
+                        <div class="mt-auto">
                         <div class="text-center mt-4">
-                          <button class="btn btn-lg btn-warning me-2" [routerLink]="['/recipe/detail', recipe.id]" type="button">
+                          <button class="btn btn-warning btn-custom-size me-2" [routerLink]="['/recipe/detail', recipe.id]" type="button">
                             <img src="../../assets/icons/informacion.png" alt="More Info" style="height: 20px; width: 20px;"> More Info
                           </button>                          
                             @if (userRole === "admin") {
-                              <button class="btn btn-lg btn-warning me-2" [routerLink]="['/recipe', recipe.id]" type="button">
+                              <button class="btn btn-warning btn-custom-size me-2" [routerLink]="['/recipe', recipe.id]" type="button">
                                 <img src="../../assets/icons/editar.png" alt="More Info" style="height: 20px; width: 20px;"> Edit
                               </button>
-                              <button class="btn btn-lg btn-warning me-2" (click)="deleteRecipe(recipe.id)" type="button">
+                              <button class="btn btn-warning btn-custom-size me-2" (click)="deleteRecipe(recipe.id)" type="button">
                                 <img src="../../assets/icons/borrar.png" alt="More Info" style="height: 20px; width: 20px;"> Edit Delete
                               </button>                              
                             }
                             @if(userRole === "admin" || userRole === "user") {
-                            <button class="btn btn-lg btn-warning me-2" type="button" (click)="pulsarFavorito(recipe.id)">
+                            <button class="btn btn-warning btn-custom-size me-2" type="button" (click)="pulsarFavorito(recipe.id)">
                               @if(!esFavorito(recipe.id)){
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
                                   <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
@@ -58,6 +58,7 @@
                               }
                             </button>
                           }
+                        </div>
                         </div>
                     </div>
                 </div>

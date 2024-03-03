@@ -17,85 +17,106 @@ import { SearchComponent } from "../search/search.component";
     styleUrl: './lista-recetas.component.css'
 })
 
-export class ListaRecetasComponent implements OnInit {
-  
-  recipes: Recipe[] = []; //Array para almacenar las recetas
-  pageable!: Page;// Variable Page
-  numPage = 1; //numero de pagina 
-  totalRecipes: number = 0; //total de recetas
-  maxPage: number = 0;  //maximo numero de paginas 
-  pageSize = 4;
-  order = 'id';
-  asc = true;
-
-
-
-  userRole: string | null = null;
-  username: string | null = null;
-
-  currentFilterMethod: string | null = null;
-  favoriteRecipes: Recipe[] = [];
-
-  @Input() method: string = '';
-  @Input() title: string = '';
-
-  constructor(private recipeService: RecipeService, private authService: AuthService, private route: ActivatedRoute) {}
-
-  ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
-      const filteringMethod = params['method'];
-      if (filteringMethod) {
-        this.currentFilterMethod = filteringMethod;
-        this.method = this.currentFilterMethod ?? '';
-        this.loadRecipes();
-      } else {
-        this.loadRecipes();
-      }
-    });
-    this.userRole = this.getUserRole();
-  }
+  export class ListaRecetasComponent implements OnInit {
+    
+    recipes: Recipe[] = []; //Array para almacenar las recetas
+    recipe !: Recipe;
+    pageable!: Page;// Variable Page
+    numPage = 1; //numero de pagina 
+    totalRecipes: number = 0; //total de recetas
+    maxPage: number = 0;  //maximo numero de paginas 
+    pageSize = 4;
+    order = 'id';
+    asc = true;
   
   
-
-
-  //Metodo para cargar las recetas 
-  loadRecipes(): void {
-    if (this.method) {
-      this.recipeService.filterRecipesByMethod(this.method, this.numPage, this.order, this.asc)
-        .subscribe({
-          next: (page) => {
-            this.recipes = page.content;
-            this.pageable = page;
-          },
-          error: (error) => {
-            console.error('Error al cargar las recetas:', error);
-          }
-        });
-    } else if (this.title){
-      this.recipeService.filterRecipesByTitle(this.title, this.numPage, this.order, this.asc)
-        .subscribe({
-          next: (page) => {
-            this.recipes = page.content;
-            this.pageable = page;
-          },
-          error: (error) => {
-            console.error('Error al cargar las recetas', error);
-      
-          }
-        });
-    }else {
-      this.recipeService.listRecipes(this.numPage, this.order, this.asc)
-        .subscribe({
-          next: (page) => {
-            this.recipes = page.content;
-            this.pageable = page;
-          },
-          error: (error) => {
-            console.error('Error al cargar las recetas:', error);
-          }
-        });
+  
+    userRole: string | null = null;
+    username: string | null = null;
+  
+    currentFilterMethod: string | null = null;
+    favoriteRecipes: Recipe[] = [];
+  
+    @Input() method: string = '';
+    @Input() title: string = '';
+  
+    constructor(private recipeService: RecipeService, private authService: AuthService, private route: ActivatedRoute) {}
+  
+    ngOnInit(): void {
+      this.route.queryParams.subscribe(params => {
+        const filteringMethod = params['method'];
+        if (filteringMethod) {
+          this.currentFilterMethod = filteringMethod;
+          this.method = this.currentFilterMethod ?? '';
+          this.loadRecipes();
+        } else {
+          this.loadRecipes();
+        }
+      });
+      this.userRole = this.getUserRole();
     }
-  }
+    
+    
+  
+  
+    //Metodo para cargar las recetas 
+    loadRecipes(): void {
+      if (this.method) {
+        this.recipeService.filterRecipesByMethod(this.method, this.numPage, this.order, this.asc)
+          .subscribe({
+            next: (page) => {
+              this.recipes = page.content.filter(recipe => !recipe.deleted); 
+              this.pageable = page;
+            },
+            error: (error) => {
+              console.error('Error al cargar las recetas:', error);
+            }
+          });
+      } else if (this.title){
+        this.recipeService.filterRecipesByTitle(this.title, this.numPage, this.order, this.asc)
+          .subscribe({
+            next: (page) => {
+              this.recipes = page.content.filter(recipe => !recipe.deleted); 
+              this.pageable = page;
+            },
+            error: (error) => {
+              console.error('Error al cargar las recetas', error);
+        
+            }
+          });
+      }else {
+        this.recipeService.listRecipes(this.numPage, this.order, this.asc)
+          .subscribe({
+            next: (page) => {
+              this.recipes = page.content.filter(recipe => !recipe.deleted); 
+              this.pageable = page;
+              this.recipes.forEach((recipe) => {
+                this.getRecipeDetails(recipe.id);
+              });
+            },
+            error: (error) => {
+              console.error('Error al cargar las recetas:', error);
+            }
+          });
+      }
+    }
+  
+    getRecipeDetails(id: number): void {
+      this.recipeService.getRecipeById(id).subscribe({
+        next: (detailedRecipe) => {
+          // Encuentra el indice de la receta en el array 'recipes'
+          const index = this.recipes.findIndex(recipe => recipe.id === id);
+          if (index !== -1) {
+            // Actualiza la receta en el array con los nuevos detalles
+            this.recipes[index] = detailedRecipe;
+          }
+        },
+        error: (error) => {
+          console.error('Error', error);
+        }
+      });
+    }
+    
   
   //metodo para incrementar la pagina y avanzar a la siguiente
   nextPage(): void {
@@ -145,6 +166,10 @@ export class ListaRecetasComponent implements OnInit {
   //Metodo para obtener el username
   getUsername(): string | null {
     return this.authService.getUsername();
+  }
+
+  getEmail(): string | null {
+    return this.authService.getUserEmail();
   }
 
   //Metodo para obtener el rol

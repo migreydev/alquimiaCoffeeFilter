@@ -12,7 +12,8 @@ import { DataTablesModule } from 'angular-datatables';
     selector: 'app-recipes-by-user',
     standalone: true,
     templateUrl: './recipes-by-user.component.html',
-    imports: [NavBarComponent, FooterComponent, RouterLink, RouterLinkActive, DataTablesModule]
+    imports: [NavBarComponent, FooterComponent, RouterLink, RouterLinkActive, DataTablesModule],
+    styleUrl: './recipes-by-user.component.css'
 })
 
 export class RecipesByUserComponent implements OnInit {

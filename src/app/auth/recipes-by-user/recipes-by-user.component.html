@@ -4,21 +4,22 @@
         <h3 class="mb-0">Lista de Recetas de {{ userName }}</h3>
     </div>
 
-    <table datatable [dtOptions]="dtOptions" class="table table-bordered">
+    <div class="table-responsive">
+    <table datatable [dtOptions]="dtOptions" class="table table-bordered text-center">
         <thead>
-          <tr>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Method</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Status</th>
-            <th>Actions</th>
+          <tr class="text-center">
+            <th class="text-center">Title</th>
+            <th class="text-center">Description</th>
+            <th class="text-center">Method</th>
+            <th class="text-center">Name</th>
+            <th class="text-center">Email</th>
+            <th class="text-center">Status</th>
+            <th class="text-center">Actions</th>
           </tr>
         </thead>
         <tbody>
         @for (recipe of userRecipes; track $index) {
-          <tr>
+          <tr class="text-center">
             <td>{{ recipe.title }}</td>
             <td>{{ recipe.description }}</td>
             <td>{{ recipe.filteringMethod }}</td>
@@ -31,7 +32,7 @@
                 Active
               }
             </td>
-            <td>
+            <td  style="white-space: nowrap;">
                 @if(!recipe.deleted){
                 <button class="btn btn-sm btn-warning me-2" [routerLink]="['/recipe/detail', recipe.id]" type="button">
                   <img src="../../assets/icons/informacion.png" alt="More Info" style="height: 20px; width: 20px;"> More Info
@@ -48,5 +49,6 @@
         }
         </tbody>
       </table>
+    </div>
     </div>
   <app-footer></app-footer>

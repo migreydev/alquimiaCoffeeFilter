@@ -31,3 +31,18 @@
   z-index: 10; 
 }
 
+.btn-custom-size {
+  padding: 8px 12px; 
+  font-size: 1rem; 
+}
+
+/* Estilo base del botón */
+.btn-hover-effect {
+  transition: background-color 0.3s, box-shadow 0.3s; 
+}
+
+/* Estilo hover del botón */
+.btn-hover-effect:hover {
+  background-color: #e0a800; 
+  box-shadow: 0 0 10px #cccccc; 
+}

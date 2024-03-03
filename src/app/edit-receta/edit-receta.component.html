@@ -36,10 +36,17 @@
                         <!-- Origin -->
                         <div class="form-group">
                             <label for="origin">Origin</label>
-                            <select id="origin" name="originIds" class="form-control" [(ngModel)]="recipeForm.originIds" multiple required>
-                                <option value="">Select origins</option>
-                                <option *ngFor="let origin of origins" [value]="origin.id">{{ origin.country }}</option>
-                            </select>
+                            <ng-select [items]="origins"
+                                    bindLabel="country"
+                                    bindValue="id"
+                                    placeholder="Select origins"
+                                    [(ngModel)]="recipeForm.originIds"
+                                    [multiple]="true"
+                                    name="originIds"
+                                    required
+                                    class="form-control custom-ng-select">
+                            </ng-select>
+
                         </div>
                         <!-- Description -->
                         <div class="form-group">

@@ -46,4 +46,14 @@
   background-color: #555; 
 }
 
+/* Estilo base de .nav-link.btn */
+.nav-link.btn {
+  transition: background-color 0.3s, box-shadow 0.3s; 
+}
+
+/* Estilo hover de .nav-link.btn */
+.nav-link.btn:hover {
+  background-color: #e0a800; 
+  box-shadow: 0 0 10px #cccccc; 
+}
 

@@ -23,16 +23,16 @@ export class AddRecetaComponent implements OnInit {
   email: string = "";
   idUser: number = 0;
   newRecipe: Recipe = { 
-      id: 0,
-      userId: this.idUser, 
-      userName: this.username,
-      userEmail: this.email,
-      title: '', 
-      description: '',
-      filteringMethod: '',
-      originIds: [], 
-      image: '',
-      deleted: 0
+    id: 0,
+    userId: 0, 
+    userName: '',
+    userEmail: '',
+    title: '', 
+    description: '',
+    filteringMethod: '',
+    originIds: [], 
+    image: '',
+    deleted: 0
   };
 
   successMessage: string = '';
@@ -49,6 +49,7 @@ export class AddRecetaComponent implements OnInit {
       this.newRecipe.userEmail = this.authService.getUserEmail() || "";
   }
 
+
   //Metodo para cargar los origenes de cafe 
   loadOrigins(): void {
     this.recipeService.getOrigins().subscribe({ //Se subcribe al metodo obtener origenes 
@@ -63,39 +64,37 @@ export class AddRecetaComponent implements OnInit {
 
   //Metodo para guardar receta
   saveRecipe(): void {
-    if (this.newRecipe.userId) { //si el id del usuario es true
-      this.recipeService.addRecipe(this.newRecipe).subscribe({ //nos subcribimos al metodo añadir receta
-        next: (recipe) => { 
-            this.newRecipe = recipe; //la nueva receta se la asociamos a nuestro objeto de receta 
+    // Asignar detalles del usuario justo antes de guardar la receta
+    this.newRecipe.userId = this.authService.getUserId() || 0;
+    this.newRecipe.userName = this.authService.getUsername() || "";
+    this.newRecipe.userEmail = this.authService.getUserEmail() || "";
+  
+    if (this.newRecipe.userId && this.newRecipe.title && this.newRecipe.description) {
+      this.recipeService.addRecipe(this.newRecipe).subscribe({
+        next: (recipe) => {
           this.successMessage = 'Recipe added successfully!';
-          this.errorMessage = ''; 
-          this.resetForm(); //reseteamos los valores del formulario
+          this.resetForm(); // Resetea el formulario
         },
         error: (error) => {
           console.error('Error', error);
           this.errorMessage = 'Failed to save the recipe.';
-          this.successMessage = ''; 
         }
       });
+    } else {
+      this.errorMessage = 'Required user information is missing.';
     }
   }
   
+  
+  
 
     //metodo para resetar los valores del formulario de receta 
-  private resetForm(): void {
-      this.newRecipe = {
-          id: 0,
-          userId: this.idUser,
-          userName: this.username,
-          userEmail: this.email,
-          title: '', 
-          description: '',
-          filteringMethod: '',
-          originIds: [], 
-          image: '',
-          deleted: 0
-      };
-  }
+    private resetForm(): void {
+      this.newRecipe.title = ''; 
+      this.newRecipe.description = '';
+      this.newRecipe.filteringMethod = '';
+      this.newRecipe.originIds = [];
+    }
 
   getUsername(): string | null {
     const user = this.authService.user;
