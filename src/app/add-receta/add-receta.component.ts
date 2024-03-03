@@ -35,8 +35,8 @@ export class AddRecetaComponent implements OnInit {
     deleted: 0
   };
 
-  successMessage: string = '';
-  errorMessage: string = '';
+  successMessage: string = ''; //Mensaje exito
+  errorMessage: string = ''; //Mensaje error
 
 
   constructor(private recipeService: RecipeService, private authService: AuthService) {}
@@ -65,9 +65,9 @@ export class AddRecetaComponent implements OnInit {
   //Metodo para guardar receta
   saveRecipe(): void {
     // Asignar detalles del usuario justo antes de guardar la receta
-    this.newRecipe.userId = this.authService.getUserId() || 0;
-    this.newRecipe.userName = this.authService.getUsername() || "";
-    this.newRecipe.userEmail = this.authService.getUserEmail() || "";
+    this.newRecipe.userId = this.authService.getUserId() || 0; // Obtener el ID de usuario
+    this.newRecipe.userName = this.authService.getUsername() || ""; // Obtener el nombre de usuario
+    this.newRecipe.userEmail = this.authService.getUserEmail() || ""; // Obtener el correo
   
     if (this.newRecipe.userId && this.newRecipe.title && this.newRecipe.description) {
       this.recipeService.addRecipe(this.newRecipe).subscribe({
@@ -96,11 +96,13 @@ export class AddRecetaComponent implements OnInit {
       this.newRecipe.originIds = [];
     }
 
+    //Metodo para obtener el username
   getUsername(): string | null {
     const user = this.authService.user;
     return user ? user.username : null;
   }
 
+  //Metodo para obtener el email
   getEmail(): string | null {
     const user = this.authService.user;
     return user ? user.email : null;

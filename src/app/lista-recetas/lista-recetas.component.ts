@@ -104,7 +104,7 @@ import { SearchComponent } from "../search/search.component";
     getRecipeDetails(id: number): void {
       this.recipeService.getRecipeById(id).subscribe({
         next: (detailedRecipe) => {
-          // Encuentra el indice de la receta en el array 'recipes'
+          // Encuentra el indice de la receta en el array recipes
           const index = this.recipes.findIndex(recipe => recipe.id === id);
           if (index !== -1) {
             // Actualiza la receta en el array con los nuevos detalles
@@ -168,6 +168,7 @@ import { SearchComponent } from "../search/search.component";
     return this.authService.getUsername();
   }
 
+  //Obtiene el email de usuario
   getEmail(): string | null {
     return this.authService.getUserEmail();
   }
@@ -210,7 +211,7 @@ esFavorito(idRecipe: number) {
   }
 }
 
-  
+  //MEtodo para obtener las recetas favoritas
   getFavoritos() {
     const token = this.authService.getToken();
     if (token) {

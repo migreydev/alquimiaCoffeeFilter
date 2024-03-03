@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 })
 export class SearchComponent implements OnInit{
   
-  @Output() searchEvent: EventEmitter<string> = new EventEmitter();
+  @Output() searchEvent: EventEmitter<string> = new EventEmitter(); // Evento de salida que emite la barra de busqueda.
   searchTerm: string = '';
 
   constructor(){}
@@ -20,8 +20,8 @@ export class SearchComponent implements OnInit{
 
     
   }
-
+// Metodo para activar la busqueda y emitir el termino de busqueda.
   search(): void {
-    this.searchEvent.emit(this.searchTerm.trim().toLowerCase());
+    this.searchEvent.emit(this.searchTerm.trim().toLowerCase());// Emite el termino de busqueda y converte a minusculas.
   }
 }

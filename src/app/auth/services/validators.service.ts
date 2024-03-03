@@ -6,7 +6,7 @@ import { AbstractControl, FormControl, ValidationErrors, ValidatorFn } from '@an
 })
 export class ValidatorsService {
 
-  usernamePattern: string = '^[a-zA-Z0-9]*$'; // Patrón para el nombre de usuario (solo letras y números)
+  usernamePattern: string = '^[a-zA-Z0-9]*$'; // Patron para el nombre de usuario (solo letras y numeros)
 
   constructor() { }
 

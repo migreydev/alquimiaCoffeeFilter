@@ -19,10 +19,10 @@ export class RecipeService {
 
     private urlOrigin = "http://localhost:8080/origins"; 
 
-   
+   // Objeto que almacena los ID de las recetas favoritas para cada token de usuario
     private favoritos: { [token: string]: number[] } = {};
 
-
+    // Metodo para listar recetas paginadas
     listRecipes(page: number, sort: string, asc: boolean): Observable<Page> {
       let params = new HttpParams()
           .set('page', String(page))
@@ -32,7 +32,7 @@ export class RecipeService {
       return this.http.get<any>(`${this.url}?pageNumber=${page}&sort=${sort}&asc=${asc}`, { params });
   }
   
-
+  // Metodo para agregar un ID de receta a la lista de favoritos asociada al token de usuario.
     agregarAFavoritos(idRecipe: number, token: string): void {
       if (!this.favoritos[token]) {
         this.favoritos[token] = [];
@@ -43,6 +43,7 @@ export class RecipeService {
       }
     }
     
+    // Metodo para eliminar un ID de receta de la lista de favoritos asociada al token de usuario
     eliminarFavoritos(idRecipe: number, token: string): void {
       if (this.favoritos[token]) {
         this.favoritos[token] = this.favoritos[token].filter(id => id !== idRecipe);
@@ -51,12 +52,12 @@ export class RecipeService {
     }
   
 
-    // Verifica si una receta está en favoritos asociada al token del usuario
+    // Verifica si una receta esta en favoritos asociada al token del usuario
   esFavorito(idReceta: number, token: string): boolean {
     return this.favoritos[token] && this.favoritos[token].includes(idReceta);
   }
   
-    // Obtiene los IDs de las recetas favoritas asociadas al token del usuario
+    // Obtiene los ID de las recetas favoritas asociadas al token del usuario
   obtenerFavoritos(token: string): number[] {
     return this.favoritos[token] || [];
   }
@@ -98,7 +99,7 @@ export class RecipeService {
       return this.http.get<number>(`${this.url}/count`);
     }
     
-
+    // Metodo para cargar las recetas favoritas asociadas a un token de usuario.
     loadFavoriteRecipes(token: string): Observable<Recipe[]> {
       const favoriteIds = this.obtenerFavoritos(token);
       const requests: Observable<Recipe>[] = [];

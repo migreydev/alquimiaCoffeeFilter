@@ -29,6 +29,7 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {
     this.registerForm = this.formBuilder.group({
+      // Definir los campos del formulario y sus valores iniciales con validaciones
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email, this.emailValidatorService.emailValidator()]], 
       username: ['', [Validators.required, this.validatorsService.usernameValidator()]], 
@@ -39,9 +40,10 @@ export class RegisterComponent implements OnInit {
     });
   }
 
+  //Verificacion del formulario
   onSubmit(): void {
     if (this.registerForm.valid) {
-      const { name, email, username, password } = this.registerForm.value;
+      const { name, email, username, password } = this.registerForm.value;  // Extraer los valores del formulario
       const rol = 'user';
       this.authService.register({ name, email, username, password, rol }).subscribe(
         () => {
@@ -66,6 +68,7 @@ export class RegisterComponent implements OnInit {
     }
   }
 
+  // Metodo para verificar si un campo de un formulario no es valido
   invalidField(field: string): boolean {
     const control = this.registerForm.get(field);
     if (control) {

@@ -28,18 +28,18 @@ export class HomeComponent implements OnInit{
 
     }
 
-
+      // Metodo para establecer el method de filtrado y redirigir al usuario a la ruta del listado
       setFilterMethod(method: string): void {
         this.currentFilterMethod = method;
-        // Redirige al usuario a la ruta del listado de recetas con el parámetro de filtrado
+        // Redirige al usuario a la ruta del listado de recetas con el parametro de filtrado
         this.router.navigate(['/recipes'], { queryParams: { method: method } });
 
       }
       
-      
+      // Metodo para manejar la búsqueda de recetas y redirigir al usuario a la ruta del listado
       onSearch(searchTerm: string): void {
         this.searchTerm = searchTerm;
-        // Redirige al usuario a la ruta del listado de recetas con el término de búsqueda
+        // Redirige al usuario a la ruta del listado de recetas con el término de busqueda
         this.router.navigate(['/recipes'], { queryParams: { method: searchTerm } });
       }
     

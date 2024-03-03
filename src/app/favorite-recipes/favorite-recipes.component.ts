@@ -22,19 +22,20 @@ export class FavoriteRecipesComponent implements OnInit {
   constructor(private recipeService: RecipeService, private authService: AuthService) {}
 
   ngOnInit(): void {
-    this.token = this.authService.getToken();
-    if (this.token !== null) {
-      this.loadFavoriteRecipes();
+    this.token = this.authService.getToken(); // Obtener el token
+    if (this.token !== null) { //Si existe el token
+      this.loadFavoriteRecipes(); // Cargar las recetas favoritas
     }
   }
 
+// Metodo para cargar las recetas favoritas
   loadFavoriteRecipes(): void {
     if (this.token) {
-      const favoriteIds = this.recipeService.obtenerFavoritos(this.token);
-      if (favoriteIds && favoriteIds.length > 0) {
+      const favoriteIds = this.recipeService.obtenerFavoritos(this.token);// Obtener los ID de recetas favoritas
+      if (favoriteIds && favoriteIds.length > 0) {// Si hay ID de recetas favoritas
         this.recipeService.loadFavoriteRecipes(this.token).subscribe({
           next: (recipes: Recipe[]) => {
-            this.favoriteRecipes = recipes;
+            this.favoriteRecipes = recipes; // Asignar las recetas a la lista de recetas favoritas
           },
           error: (error) => {
             console.error('Error loading favorite recipes:', error);
@@ -43,7 +44,7 @@ export class FavoriteRecipesComponent implements OnInit {
       } else {
         this.favoriteRecipes = [];
       }
-    const username = this.authService.getUsername();
+    const username = this.authService.getUsername();  // Obtener y asignar el nombre de usuario
     if (username) {
       this.userName = username; 
     }
@@ -74,11 +75,12 @@ esFavorito(idRecipe: number): boolean {
     return false; // Si el token es nulo, se devuelve false
 }
 
+// Método para cargar las recetas favoritas desde el localStorage
 loadFavoriteRecipesFromLocalStorage() {
     if (this.token !== null) {
-      const favoritosString = localStorage.getItem(this.token);
+      const favoritosString = localStorage.getItem(this.token); // Obtener las recetas favoritas desde el localStorage
       if (favoritosString) {
-        this.favoriteRecipes = JSON.parse(favoritosString);
+        this.favoriteRecipes = JSON.parse(favoritosString);  //Se parsea a Json
       }
     }
   }

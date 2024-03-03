@@ -31,16 +31,15 @@ export class RecipesByUserComponent implements OnInit {
   constructor(private authService: AuthService, private route: ActivatedRoute, private recipeService: RecipeService) {}
   
   ngOnInit(): void {
-    this.userId = this.authService.getUserId();
-    this.loadUserRecipes();
+    this.userId = this.authService.getUserId(); // Obtener el ID de usuario
+    this.loadUserRecipes(); // Cargar las recetas del usuario
     
   
-    // Asegúrate de que userId sea un número válido y no sea 0.
     if (this.userId > 0) {
       this.loadUserRecipes();
       this.authService.getUserRecipes().subscribe({
         next: (recipes: Recipe[]) => {
-          this.userRecipes = recipes;
+          this.userRecipes = recipes;// Asignar las recetas del usuario
         },
         error: (error) => {
           console.error('Error', error);
@@ -67,13 +66,13 @@ export class RecipesByUserComponent implements OnInit {
     });
   }
 
-
+  //Eliminar receta
   deleteRecipe(id: number): void {
     this.recipeService.deleteRecipe(id).subscribe({
       next: () => {
-        const recipe = this.userRecipes.find(recipe => recipe.id === id);
+        const recipe = this.userRecipes.find(recipe => recipe.id === id);// Buscar la receta en la lista de recetas del usuario utilizando su ID
         if (recipe) {
-          recipe.deleted = 1;
+          recipe.deleted = 1; //Marca la receta como eliminada 
         }
       },
       error: (error) => {

@@ -21,8 +21,8 @@ export class EditRecetaComponent implements OnInit{
   recipeForm: Recipe = { //Objeto de tipo receta 
       id: 0,
       userId: 1, 
-      userName: 'Sonnie',
-      userEmail: 'sstutte0@gmail.com',
+      userName: '',
+      userEmail: '',
       title: '', 
       description: '',
       filteringMethod: '',

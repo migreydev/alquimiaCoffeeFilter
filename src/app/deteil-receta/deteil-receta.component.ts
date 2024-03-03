@@ -19,8 +19,8 @@ export class DetailRecetaComponent implements OnInit {
   recipe: Recipe = { 
       id: 0,
       userId: 1, 
-      userName: 'Sonnie',
-      userEmail: 'sstutte0@gmail.com',
+      userName: '',
+      userEmail: '',
       title: '', 
       description: '',
       filteringMethod: '',

@@ -21,17 +21,18 @@ export class LoginComponent {
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private router: Router
-  ) {
+  ) { //rglas de validacion
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.required], 
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
-
+  
+  //MEtodo para inicio de sesion
   onSubmit(): void {
     if (this.loginForm.valid) {
-      const { username, password } = this.loginForm.value;
-      const credentials = {
+      const { username, password } = this.loginForm.value; // Obtener las credenciales del formulario
+      const credentials = { //Las almacenamos en un objeto 
         username: username, 
         password: password
       };

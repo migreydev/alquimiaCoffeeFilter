@@ -25,23 +25,24 @@ export class AuthService {
   
     constructor(private http: HttpClient, private router: Router) { }
   
+    //MEtodo para almacenar el token y el usuario
     private storageUser(resp: any): void {
         const token = resp.token;
         if (token) {
-            localStorage.setItem('token', token);
-            console.log('Token almacenado en localStorage:', token);
+            localStorage.setItem('token', token);// Almacenar el token de acceso en el almacenamiento local
+            console.log('Token', token);
         } else {
-            console.error('El token no está presente en la respuesta:', resp);
+            console.error('El token no se encuentra:', resp);
         }
-        this._user = resp.user;
+        this._user = resp.user;// Asignar los datos del usuario a  _user
     }
     
     
-  
+      // Metodo para iniciar sesión de usuario
     login(credentials: { username: string, password: string }): Observable<any> {
         return this.http.post(this.apiUrlLogin, credentials, { responseType: 'text' }).pipe(
           tap((token: string) => {
-            this.storageUser({ token });
+            this.storageUser({ token });//almacena el token si el login es correcto
             console.log('Token:', token);
           }),
           catchError(error => {
@@ -58,6 +59,7 @@ export class AuthService {
         );
     }
   
+    // Metodo para validar el token del usuario
     validateToken(): Observable<boolean> {
         const url = `${this.apiUrlLogin}/renew`;
         const headers: HttpHeaders = new HttpHeaders().set('x-token', localStorage.getItem('token') || '');
@@ -74,23 +76,29 @@ export class AuthService {
             );
     }
   
+    // Metodo para registrar un usuario 
     register(user: any): Observable<any> {
         return this.http.post<any>(this.apiUrlRegister, user);
     }
-  
+
+    // Metodo para cerrar sesión del usuario
+    // - Elimina el token almacenado en el LocalStorage
     logout(): void {
         localStorage.removeItem('token');
         this.router.navigate(['/']);
     }
   
+    //MEtodo para obtener el token
     getToken(): string | null {
         return localStorage.getItem('token');
     }
-  
+
+    // Metodo para verificar si el usuario ha iniciado sesión
     isLoggedIn(): boolean {
-        return !!this.getToken();
+        return !!this.getToken(); //Devuelve true si hay un token almacenado
     }
   
+    // Metodo para decodificar un token JWT
     private parseJwt(token: string): any {
         try {
             const base64Url = token.split('.')[1];
@@ -101,6 +109,7 @@ export class AuthService {
         }
     }
 
+    //Obtiene el rol del usuario del token
     getUserRole(): string | null {
         const token = localStorage.getItem('token');
         if (token) {
@@ -111,6 +120,7 @@ export class AuthService {
     }
     
 
+    //Obteien el username del usuario del token
     getUsername(): string | null {
         const token = localStorage.getItem('token');
         if (token) {
@@ -120,6 +130,7 @@ export class AuthService {
         return null;
     }
 
+    //Obtiene el email del usuario del token
     getUserEmail(): string | null {
         const token = localStorage.getItem('token');
         if (token) {
@@ -129,6 +140,8 @@ export class AuthService {
         return null;
     }
 
+
+    //Obtiene el id del usuario del token
     getUserId(): number {
         const token = localStorage.getItem('token');
         if (token) {
