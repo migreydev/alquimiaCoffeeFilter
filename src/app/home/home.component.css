@@ -53,6 +53,10 @@
     text-shadow: -0.5px -0.5px 0 #000, 0.5px -0.5px 0 #000, -0.5px 0.5px 0 #000, 0.5px 0.5px 0 #000;
 }
 
+.enlace-negro {
+    color: #000000;
+}
+
 
 .gallery-card {
     transition: transform 0.3s ease;
