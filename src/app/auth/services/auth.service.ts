@@ -14,8 +14,8 @@ import { jwtDecode } from 'jwt-decode';
 
 export class AuthService {
 
-    private apiUrlLogin = 'http://localhost:8080/auth/login';
-    private apiUrlRegister = 'http://localhost:8080/auth/register';
+    private apiUrlLogin = 'https://proyectoapi-migreydev.onrender.com/auth/login';
+    private apiUrlRegister = 'https://proyectoapi-migreydev.onrender.com/auth/register';
   
     private _user!: User;
   
@@ -157,7 +157,7 @@ export class AuthService {
      // Metodo para obtener las recetas del usuario actual
      getUserRecipes(): Observable<Recipe[]> {
         const userId = this.getUserId(); // Obtener el ID del usuario actual
-        return this.http.get<Recipe[]>(`http://localhost:8080/user/${userId}/recipes`);
+        return this.http.get<Recipe[]>(`https://proyectoapi-migreydev.onrender.com/user/${userId}/recipes`);
     }
 
     

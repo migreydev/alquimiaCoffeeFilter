@@ -13,11 +13,11 @@ export class RecipeService {
     constructor(private http: HttpClient) {}
 
 
-    private url = "http://localhost:8080/recipes"; 
-    private urlAdd = "http://localhost:8080/recipe"; 
+    private url = "https://proyectoapi-migreydev.onrender.com/recipes"; 
+    private urlAdd = "https://proyectoapi-migreydev.onrender.com/recipe"; 
   
 
-    private urlOrigin = "http://localhost:8080/origins"; 
+    private urlOrigin = "https://proyectoapi-migreydev.onrender.com/origins"; 
 
    // Objeto que almacena los ID de las recetas favoritas para cada token de usuario
     private favoritos: { [token: string]: number[] } = {};
@@ -75,7 +75,7 @@ export class RecipeService {
 
     //Devuleve un onbervable que emite una Receta por su id
     getRecipeById(id: number): Observable<Recipe> {
-      return this.http.get<Recipe>(`http://localhost:8080/recipe/${id}`);
+      return this.http.get<Recipe>(`https://proyectoapi-migreydev.onrender.com/recipe/${id}`);
     }
     
     
@@ -86,7 +86,7 @@ export class RecipeService {
 
     // Actualiza una receta existente con el id  y devuelve un Observable que emite la receta actualizada
     updateRecipe(id: number, recipe: Recipe): Observable<Recipe> {
-      return this.http.put<Recipe>(`http://localhost:8080/recipe/${id}`, recipe);
+      return this.http.put<Recipe>(`https://proyectoapi-migreydev.onrender.com/recipe/${id}`, recipe);
     }
     
     //elimina una receta existente con el id
