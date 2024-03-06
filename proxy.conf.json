@@ -1,0 +1,9 @@
+{
+    "/api": {
+      "target": "https://proyectoapi-migreydev.onrender.com",
+      "secure": false,
+      "changeOrigin": true,
+      "pathRewrite": {"^/api" : ""}
+    }
+  }
+  
