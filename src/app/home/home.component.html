@@ -7,35 +7,60 @@
     
 </head>
 <body>
+    <div id="top"></div>
     <app-nav-bar (searchEvent)="onSearch($event)"></app-nav-bar>
     <div class="video-header">
         <video autoplay muted loop id="myVideo">
             <source src="../../assets/video (2160p).mp4" type="video/mp4">
         </video>
+        <div class="position-absolute top-50 start-50 translate-middle text-center">
+            <h1 class="text-warning display-1 font-weight-bold font-italic" style="font-family: 'Brush Script MT', cursive;">Alquimia Coffee Filter</h1>
+        </div>
     </div>
     <div class="container my-5">
-        <h2 class="text-center mb-4 text-warning">
+        <section class="share mt-5">
+        <h2 class="text-left mb-4 text-warning">
+            <span></span>
+            What is Alquimia Coffee Filter?
+        </h2>
+    
+        <div class="row">
+            <div class="col-lg-12">
+                <p style="text-align: left;">
+                    Alquimia coffee filter is a <strong>passion project</strong> turned into a reality by a specialty coffee enthusiast and <strong>a web development</strong>. Our story began as <strong>a school project focused on web development</strong>, 
+                    where our founder's love for coffee and innovative brewing methods sparked an idea to create a unique web of coffee filter that would elevate the coffee experience.
+                </p>
+                
+            </div>
+        </div>
+        </section>        
+    </div>
+    <div class="container my-5">
+        <section class="share mt-5">
+        <h2 class="text-left mb-4 text-warning">
             <span></span>
             Specialty Coffee and Filtration Methods
         </h2>
         
         <div class="row">
             <div class="col-lg-12">
-                <p class="text-justify">
+                <p style="text-align: left;">
                     <strong>Specialty coffee</strong> represents the highest quality within the coffee industry. These beans come from regions with unique microclimates that enhance their complex and distinctive flavor profile.
                 </p>
-                <p class="text-justify">
+                <p style="text-align: left;">
                     In a world where quality is key, coffee filtering methods have become an art form. From the classic French press to the meticulous Kalita method, AeroPress, each filtering technique brings different nuances and aromas to specialty coffee.
                 </p>
-                <p class="text-justify">
+                <p style="text-align: left;">
                     Each cup of specialty coffee prepared with filtering methods is the result of a meticulous process that begins with responsible bean cultivation and ends in a cup full of flavor and character.
                 </p>
             </div>
-        </div>        
+        </div> 
+        </section>       
     </div>
+    
     <main role="main" class="container">
-        <section class="gallery mt-5">
-            <h2 class="text-warning">Gallery & Images Coffee Recipes</h2>
+        <section class="share mt-5">
+            <h2 class="text-left mb-4 text-warning">Gallery & Images Coffee Recipes</h2>
             <div class="col-lg-12">
                 <p class="text-justify">
                     Discover the art of coffee with our diverse range of brewing methods, each offering a unique way to experience specialty coffee:
@@ -128,6 +153,14 @@
             </div>
         </section>        
     </main>
+    <br>
+    <div class="d-flex justify-content-end fixed-bottom m-3">
+        <a href="#top" class="btn btn-warning">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-square-fill" viewBox="0 0 16 16">
+            <path d="M2 16a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2zm6.5-4.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 1 0"/>
+          </svg>
+        </a>
+      </div>
     <app-footer></app-footer>
 </body>
 </html>

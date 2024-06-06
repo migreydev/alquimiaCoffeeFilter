@@ -8,12 +8,13 @@ import { FormsModule } from '@angular/forms';
 import { Origin } from '../interfaces/Origin';
 import { AuthService } from '../auth/services/auth.service';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { RouterLink } from '@angular/router';
 
 @Component({
     selector: 'app-add-receta',
     standalone: true,
     templateUrl: './add-receta.component.html',
-    imports: [FooterComponent, NavBarComponent, CommonModule, FormsModule, NgSelectModule],
+    imports: [FooterComponent, NavBarComponent, CommonModule, FormsModule, NgSelectModule, RouterLink],
     styleUrl: './add-receta.component.css'
 })
 export class AddRecetaComponent implements OnInit {
@@ -94,6 +95,7 @@ export class AddRecetaComponent implements OnInit {
       this.newRecipe.description = '';
       this.newRecipe.filteringMethod = '';
       this.newRecipe.originIds = [];
+      this.errorMessage = ''; // Limpiar el mensaje de error
     }
 
     //Metodo para obtener el username

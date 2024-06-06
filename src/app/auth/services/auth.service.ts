@@ -30,7 +30,7 @@ export class AuthService {
         const token = resp.token;
         if (token) {
             localStorage.setItem('token', token);// Almacenar el token de acceso en el almacenamiento local
-            console.log('Token', token);
+        
         } else {
             console.error('El token no se encuentra:', resp);
         }
@@ -43,7 +43,6 @@ export class AuthService {
         return this.http.post(this.apiUrlLogin, credentials, { responseType: 'text' }).pipe(
           tap((token: string) => {
             this.storageUser({ token });//almacena el token si el login es correcto
-            console.log('Token:', token);
           }),
           catchError(error => {
             let errorMessage = 'An unexpected failed to login, incorrect username or password';

@@ -20,8 +20,8 @@
         <tbody>
         @for (recipe of userRecipes; track $index) {
           <tr class="text-center">
-            <td>{{ recipe.title }}</td>
-            <td>{{ recipe.description }}</td>
+            <td style="text-align: left;">{{ recipe.title }}</td>
+            <td style="text-align: left; max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ recipe.description }}</td>
             <td>{{ recipe.filteringMethod }}</td>
             <td>{{ recipe.userName }}</td>
             <td>{{ recipe.userEmail }}</td>
@@ -34,15 +34,23 @@
             </td>
             <td  style="white-space: nowrap;">
                 @if(!recipe.deleted){
-                <button class="btn btn-sm btn-warning me-2" [routerLink]="['/recipe/detail', recipe.id]" type="button">
-                  <img src="../../assets/icons/informacion.png" alt="More Info" style="height: 20px; width: 20px;"> More Info
-                </button> 
-                <button class="btn btn-sm btn-warning me-2" [routerLink]="['/recipe', recipe.id]" type="button">
-                  <img src="../../assets/icons/editar.png" alt="More Info" style="height: 20px; width: 20px;"> Edit
-                </button>
-                <button class="btn btn-sm btn-warning me-2" (click)="deleteRecipe(recipe.id)" type="button">
-                  <img src="../../assets/icons/borrar.png" alt="More Info" style="height: 20px; width: 20px;"> Delete
-                </button> 
+                  <button class="btn btn-sm btn-warning me-2" [routerLink]="['/recipe/detail', recipe.id]" type="button">
+                    <span class="d-inline-flex align-items-center">
+                      <img src="../../assets/icons/informacion.png" alt="More Info" style="height: 20px; width: 20px;" class="me-2"> More Info
+                    </span>
+                  </button> 
+                  
+                  <button class="btn btn-sm btn-warning me-2" [routerLink]="['/recipe', recipe.id]" type="button">
+                    <span class="d-inline-flex align-items-center">
+                      <img src="../../assets/icons/editar.png" alt="Edit" style="height: 20px; width: 20px;" class="me-2"> Edit
+                    </span>
+                  </button>
+                  
+                  <button class="btn btn-sm btn-warning me-2" (click)="deleteRecipe(recipe.id)" type="button">
+                    <span class="d-inline-flex align-items-center">
+                      <img src="../../assets/icons/borrar.png" alt="Delete" style="height: 20px; width: 20px;" class="me-2"> Delete
+                    </span>
+                  </button>                  
               }
             </td>
           </tr>

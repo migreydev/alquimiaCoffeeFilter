@@ -1,3 +1,4 @@
+
 .video-header {
     position: relative;
     width: 100%;
@@ -40,6 +41,23 @@
     text-align: center;
 }
 
+/* Estilo para el título de cada sección */
+h2 {
+    position: -webkit-sticky; /* Para navegadores WebKit */
+    position: sticky; /* Para navegadores estándar */
+    top: 0;
+    background-color: #fff; 
+    padding: 10px 0; /* Ajusta el relleno  */
+    z-index: 1000; /* Ajusta el z-index  */
+  
+}
+
+/* Estilo para el título de la primera sección */
+h2:first-child {
+    border-top: none; /* Elimina el borde superior en la primera sección */
+}
+
+
 /* Estilo para las imágenes en 'Share Your Brews' */
 .share-img-top {
     width: 100%; 
@@ -72,11 +90,23 @@ p, .card-text {
     font-size: 1.1rem;
   }
 
+  .text-left {
+    text-align: left;
+}
+
+.text-left h2 {
+    text-align: left;
+}
+
+
 
   
   @media (max-width: 768px) {
     p, .card-text {
-      font-size: 1.1rem; 
+        font-size: 1.1rem; 
     }
-  }
-  
+}
+
+
+
+

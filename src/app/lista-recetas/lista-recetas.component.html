@@ -1,12 +1,20 @@
 <app-nav-bar (searchEvent)="onSearch($event)"></app-nav-bar>
-<div class="container mt-4">
+<div class="container mt-4">  
     <div class="d-flex justify-content-between mb-4 align-items-center">
         <h3 class="mb-0">Recipe List</h3>
       <app-search (searchEvent)="onSearchTitle($event)"></app-search>
       <button class="btn btn-warning btn-hover-effect" (click)="sortRecipesByTitle()">
         <img src="../../assets/icons/orden-de-clasificacion.png" alt="Sort" style="height: 20px; width: 20px;"> Sort by Title
       </button>      
-    </div>    
+    </div>
+    @if(userRole === "admin" || userRole === "user") {  
+    <div class="d-flex justify-content-end mb-3">
+      <button class="btn btn-warning" type="button" routerLink="/recipe">
+        <img src="../../assets/icons/agregar.png" alt="Add Recipe" style="height: 20px; width: 20px;" class="me-2">
+        Add Recipe
+      </button>
+    </div>
+    }
     <!-- Tarjetas -->
     <div class="d-flex flex-wrap justify-content-center"> 
       @for (recipe of recipes; track $index) {
@@ -22,7 +30,7 @@
                 <div class="col-md-8">
                   <div class="card-body d-flex flex-column justify-content-between">
                         <h5 class="card-title">{{ recipe.title }}</h5>
-                        <p class="card-text">{{ recipe.description }}</p>
+                        <p class="card-text" ellipsis>{{ recipe.description }}</p>
                         <div class="d-flex justify-content-between align-items-center">
                             <small><strong>Method: </strong> {{ recipe.filteringMethod }}</small>
                         </div>
@@ -33,17 +41,26 @@
                             <small><strong>Email: </strong>{{ recipe.userEmail }}</small> 
                         </div>
                         <div class="mt-auto">
-                        <div class="text-center mt-4">
-                          <button class="btn btn-warning btn-custom-size me-2" [routerLink]="['/recipe/detail', recipe.id]" type="button" style="transition: box-shadow 0.3s;">
-                            <img src="../../assets/icons/informacion.png" alt="More Info" style="height: 20px; width: 20px;"> More Info
-                          </button>                          
+                        <div class="text-center mt-4" ellipsis>
+                          <button class="btn btn-warning btn-custom-size btn-sm me-2" [routerLink]="['/recipe/detail', recipe.id]" type="button" style="transition: box-shadow 0.3s;">
+                            <span class="d-inline-flex align-items-center">
+                              <img src="../../assets/icons/informacion.png" alt="More Info" style="height: 20px; width: 20px;" class="me-2">
+                              More Info
+                            </span>
+                          </button>                         
                             @if (userRole === "admin") {
                               <button class="btn btn-warning btn-custom-size me-2" [routerLink]="['/recipe', recipe.id]" type="button">
-                                <img src="../../assets/icons/editar.png" alt="More Info" style="height: 20px; width: 20px;"> Edit
+                                <span class="d-inline-flex align-items-center">
+                                  <img src="../../assets/icons/editar.png" alt="Edit" style="height: 20px; width: 20px;" class="me-2">
+                                  Edit
+                                </span>
                               </button>
                               <button class="btn btn-warning btn-custom-size me-2" (click)="deleteRecipe(recipe.id)" type="button">
-                                <img src="../../assets/icons/borrar.png" alt="More Info" style="height: 20px; width: 20px;"> Edit Delete
-                              </button>                              
+                                <span class="d-inline-flex align-items-center">
+                                  <img src="../../assets/icons/borrar.png" alt="Delete" style="height: 20px; width: 20px;" class="me-2">
+                                  Delete
+                                </span>
+                              </button>                                                          
                             }
                             @if(userRole === "admin" || userRole === "user") {
                             <button class="btn btn-warning btn-custom-size me-2" type="button" (click)="pulsarFavorito(recipe.id)">

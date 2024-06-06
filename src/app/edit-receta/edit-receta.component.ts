@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FooterComponent } from "../footer/footer.component";
 import { NavBarComponent } from "../nav-bar/nav-bar.component";
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Origin } from '../interfaces/Origin';
 import { Recipe } from '../interfaces/Recipe';
 import { RecipeService } from '../services/recipe.service';
@@ -13,7 +13,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     selector: 'app-edit-receta',
     standalone: true,
     templateUrl: './edit-receta.component.html',
-    imports: [FooterComponent, NavBarComponent, CommonModule, FormsModule, NgSelectModule]
+    imports: [FooterComponent, NavBarComponent, CommonModule, FormsModule, NgSelectModule, RouterLink]
 })
 export class EditRecetaComponent implements OnInit{
 
@@ -66,7 +66,13 @@ export class EditRecetaComponent implements OnInit{
   
   //Metodo para guardar la receta
   saveRecipe(): void {
-    if (this.recipeForm.id) { //si el id de la receta es true
+
+     // Verificar si algún campo requerido está vacío
+  if (!this.recipeForm.title || !this.recipeForm.filteringMethod || this.recipeForm.originIds.length === 0 || !this.recipeForm.description) {
+    this.errorMessage = 'All required fields must be filled.';
+    return; 
+  }
+    if (this.recipeForm.id && this.recipeForm.title && this.recipeForm.description && this.recipeForm.filteringMethod && this.recipeForm.originIds.length > 0) { //si los campos de la receta son true
       this.recipeService.updateRecipe(this.recipeForm.id, this.recipeForm).subscribe({ //se llama al metodo actualizar del servicio y se le pasa el id y la receta
         next: (updatedRecipe) => {
           this.successMessage = 'Recipe updated successfully!';
