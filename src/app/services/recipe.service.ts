@@ -4,17 +4,19 @@ import { Recipe } from "../interfaces/Recipe";
 import { Observable, combineLatest, map, of } from "rxjs";
 import { Origin } from "../interfaces/Origin";
 import { Page } from "../interfaces/Page";
+import { AuthService } from "../auth/services/auth.service";
 
 
 @Injectable({
     providedIn: 'root'
 })
 export class RecipeService {
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient, private authService: AuthService) {}
 
 
     private url = "https://proyectoapi-migreydev.onrender.com/recipes"; 
-    private urlAdd = "https://proyectoapi-migreydev.onrender.com/recipe"; 
+    private urlAdd = "https://proyectoapi-migreydev.onrender.com/recipe";
+    private baseUrl = 'https://proyectoapi-migreydev.onrender.com'; 
   
 
     private urlOrigin = "https://proyectoapi-migreydev.onrender.com/origins"; 
@@ -73,26 +75,43 @@ export class RecipeService {
       return this.http.get<Origin[]>(`${this.urlOrigin}`);
     }
 
-    //Devuleve un onbervable que emite una Receta por su id
+    // Devuelve un observable que emite una Receta por su id
     getRecipeById(id: number): Observable<Recipe> {
-      return this.http.get<Recipe>(`https://proyectoapi-migreydev.onrender.com/recipe/${id}`);
+      // Obtener la URL relativa para obtener la receta por su ID
+      const relativeUrl = `recipe/${id}`;
+      
+      // Llamar al método httpWithAuthorization para realizar la solicitud GET con el token en la cabecera
+      return this.httpWithAuthorization('GET', relativeUrl);
     }
     
     
     //Agrega una recta y devuelve un observable que emite la receta creada
     addRecipe(recipe: Recipe): Observable<Recipe> {
-      return this.http.post<Recipe>(this.urlAdd, recipe);
+      // Obtener la URL relativa para agregar la receta
+      const relativeUrl = 'recipe';
+      // Llamar al método httpWithAuthorization para realizar la solicitud POST con el token en la cabecera
+      return this.httpWithAuthorization('POST', relativeUrl, recipe);
     }
 
-    // Actualiza una receta existente con el id  y devuelve un Observable que emite la receta actualizada
+    // Actualiza una receta existente con el ID y devuelve un Observable que emite la receta actualizada
     updateRecipe(id: number, recipe: Recipe): Observable<Recipe> {
-      return this.http.put<Recipe>(`https://proyectoapi-migreydev.onrender.com/recipe/${id}`, recipe);
+      // Obtener la URL relativa para actualizar la receta
+      const relativeUrl = `recipe/${id}`;
+      
+      // Llamar al método httpWithAuthorization para realizar la solicitud PUT con el token en la cabecera
+      return this.httpWithAuthorization('PUT', relativeUrl, recipe);
     }
+
     
-    //elimina una receta existente con el id
+    // Elimina una receta existente con el ID
     deleteRecipe(id: number): Observable<any> {
-      return this.http.delete(`${this.urlAdd}/${id}`);
+      // URL relativa para eliminar la receta por su ID
+      const relativeUrl = `recipe/${id}`;
+      
+      // Llamar al método httpWithAuthorization para realizar la solicitud DELETE con el token en la cabecera
+      return this.httpWithAuthorization('DELETE', relativeUrl);
     }
+
     
     // Devuelve un Observable que emite el numero total de recetas en el servidor.
     getTotalRecipesCount(): Observable<number> {
@@ -135,4 +154,9 @@ export class RecipeService {
 
       return this.http.get<Page>(url, {params});
     }
+
+    // Método para realizar solicitudes HTTP con autorización
+    httpWithAuthorization(method: string, relativeUrl: string, body?: any): Observable<any> {
+      return this.authService.httpWithAuthorization(method, relativeUrl, body);
+  }
 }

@@ -16,6 +16,7 @@ export class AuthService {
 
     private apiUrlLogin = 'https://proyectoapi-migreydev.onrender.com/auth/login';
     private apiUrlRegister = 'https://proyectoapi-migreydev.onrender.com/auth/register';
+    private baseUrl = 'https://proyectoapi-migreydev.onrender.com';
   
     private _user!: User;
   
@@ -87,10 +88,25 @@ export class AuthService {
         this.router.navigate(['/']);
     }
   
-    //MEtodo para obtener el token
+    //Metodo para obtener el token
     getToken(): string | null {
         return localStorage.getItem('token');
     }
+
+    // Metodo para obtener el token como cadena de texto
+    getTokenAsString(): string | null {
+        const token = localStorage.getItem('token');
+        if (token) {
+            // Parsear el token JSON almacenado en localStorage
+            const tokenObj = JSON.parse(token);
+            // Extraer el token de la propiedad 'token'
+            const tokenString = tokenObj.token;
+            // Devolver el token como cadena de texto
+            return tokenString;
+        }
+        return null;
+    }
+
 
     // Metodo para verificar si el usuario ha iniciado sesión
     isLoggedIn(): boolean {
@@ -156,9 +172,42 @@ export class AuthService {
      // Metodo para obtener las recetas del usuario actual
      getUserRecipes(): Observable<Recipe[]> {
         const userId = this.getUserId(); // Obtener el ID del usuario actual
-        return this.http.get<Recipe[]>(`https://proyectoapi-migreydev.onrender.com/user/${userId}/recipes`);
+        const relativeUrl = `user/${userId}/recipes`; // Construir la URL relativa
+        return this.httpWithAuthorization('GET', relativeUrl);
     }
 
+
+     // Método para realizar solicitudes HTTP con autorización
+    httpWithAuthorization(method: string, relativeUrl: string, body?: any): Observable<any> {
+        const token = this.getTokenAsString(); // Obtener el token como cadena de texto
+    
+        if (!token) {
+            return throwError(() => new Error('Token not found.'));
+        }
+    
+        const formattedToken = token.startsWith('Bearer ') ? token : `Bearer ${token}`;
+    
+        const headers = new HttpHeaders({
+            'Authorization': formattedToken,
+            'Content-Type': 'application/json'
+        });
+        
+        const url = `${this.baseUrl}/${relativeUrl}`;
+
+        return this.http.request(method, url, {
+            body,
+            headers,
+            responseType: 'json'
+        }).pipe(
+            catchError(error => {
+                console.error('HTTP request error: ', error);
+                return throwError(() => new Error('Error occurred during HTTP request: ' + error.message));
+            })
+        );
+    }
+
+    
+    
     
 
     
