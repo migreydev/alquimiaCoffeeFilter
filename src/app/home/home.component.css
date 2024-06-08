@@ -68,7 +68,7 @@ h2:first-child {
 
 .text-warning {
     color: #ffc107;
-    text-shadow: -0.5px -0.5px 0 #000, 0.5px -0.5px 0 #000, -0.5px 0.5px 0 #000, 0.5px 0.5px 0 #000;
+    text-shadow: -0.4px -0.4px 0 #000, 0.4px -0.4px 0 #000, -0.4px 0.4px 0 #000, 0.4px 0.4px 0 #000;
 }
 
 .enlace-negro {

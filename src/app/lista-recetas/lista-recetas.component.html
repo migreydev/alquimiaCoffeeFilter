@@ -1,9 +1,12 @@
 <app-nav-bar (searchEvent)="onSearch($event)"></app-nav-bar>
 <div class="container mt-4">  
     <div class="d-flex justify-content-between mb-4 align-items-center">
-        <h3 class="mb-0">Recipe List</h3>
+        <h3 class="mb-0">Recipe List
+          <br>
+          <p class="total-recipes">Total Recipes: {{ getTotalRecipes() }}</p>
+        </h3>
       <app-search (searchEvent)="onSearchTitle($event)"></app-search>
-      <button class="btn btn-warning btn-hover-effect" (click)="sortRecipesByTitle()">
+      <button class="btn btn-warning btn-hover-effect sort-button" (click)="sortRecipesByTitle()">
         <img src="../../assets/icons/orden-de-clasificacion.png" alt="Sort" style="height: 20px; width: 20px;"> Sort by Title
       </button>      
     </div>

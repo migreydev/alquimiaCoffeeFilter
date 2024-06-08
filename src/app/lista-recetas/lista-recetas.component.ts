@@ -250,6 +250,11 @@ esFavorito(idRecipe: number) {
     this.asc = !this.asc;
     this.loadRecipes();
   }
+
+  //Metodo para obtener el numero de recetas total
+  getTotalRecipes(): number {
+    return this.pageable?.totalElements ?? 0;
+  }
   
 
 }

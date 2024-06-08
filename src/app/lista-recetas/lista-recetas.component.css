@@ -8,6 +8,10 @@
     .card {
       margin: 20px;
     }
+    .sort-button {
+      margin-top: 10px; 
+      margin-left: 0; 
+    }
   }
   
   
@@ -46,3 +50,15 @@
   background-color: #e0a800; 
   box-shadow: 0 0 10px #cccccc; 
 }
+
+.sort-button {
+  margin-left: 10px; 
+}
+
+.total-recipes {
+  font-size: 14px; 
+  color: #666; 
+  margin-top: 5px; 
+}
+
+
