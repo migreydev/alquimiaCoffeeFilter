@@ -12,6 +12,16 @@
       margin-top: 10px; 
       margin-left: 0; 
     }
+    .btn-custom-size,
+    .sort-button {
+      margin-bottom: 10px;
+    }
+    .img-fluid {
+      height: 150px; 
+    }
+    .btn {
+      margin-bottom: 10px;
+    }
   }
   
   
