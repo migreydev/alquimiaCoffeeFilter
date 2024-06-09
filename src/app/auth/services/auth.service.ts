@@ -206,11 +206,34 @@ export class AuthService {
         );
     }
 
-    
-    
-    
+    validateTokenLocalStorage(): Observable<boolean> {
+        const token = this.getTokenAsString();
 
-    
+        if (!token) {
+            console.error('Token not found.');
+            return throwError(() => new Error('Token not found.'));
+        }
+
+        const formattedToken = token.startsWith('Bearer ') ? token : `Bearer ${token}`;
+
+        const url = `${this.baseUrl}/auth/verifyToken`;
+
+        // Token del localStorage en el cuerpo
+        const body = { formattedToken }; 
+
+        
+
+        return this.http.post<any>(url, { body }).pipe(
+            map(resp => {
+                console.log('Token validated successfully.', resp);
+                return true; // El token es válido
+            }),
+            catchError(err => {
+                console.error('Error validating token:', err);
+                return of(false);
+            })
+        );
+    }
     
     
     

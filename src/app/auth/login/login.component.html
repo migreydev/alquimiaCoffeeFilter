@@ -17,9 +17,9 @@
                         <div class="form-group">
                             <label for="username">Username</label>
                             <input type="text" style="border: 2px solid #ffc107; border-radius: 0.25rem;" class="form-control mb-3" id="username" formControlName="username" placeholder="Enter username" required>
-                            @if(usernameError){
+                            @if(loginForm.get('username')!.touched && !loginForm.get('username')!.value){
                                 <div class="text-danger">
-                                    {{ usernameError }}
+                                    Username is required
                                 </div>
                             }
                         </div>

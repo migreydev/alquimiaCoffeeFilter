@@ -27,6 +27,8 @@ export class RegisterComponent implements OnInit {
     private emailValidatorService: EmailValidatorService
   ) {}
 
+
+
   ngOnInit(): void {
     this.registerForm = this.formBuilder.group({
       // Definir los campos del formulario y sus valores iniciales con validaciones
@@ -42,11 +44,14 @@ export class RegisterComponent implements OnInit {
 
   //Verificacion del formulario
   onSubmit(): void {
-    if (this.registerForm.valid) {
-      const { name, email, username, password } = this.registerForm.value;  // Extraer los valores del formulario
+    if (this.registerForm.invalid) {
+      this.markAllAsTouched();
+      return;
+    }
+      const { name, email, username, password } = this.registerForm.value;
       const rol = 'user';
-      this.authService.register({ name, email, username, password, rol }).subscribe(
-        () => {
+      this.authService.register({ name, email, username, password, rol }).subscribe({
+        next: () => {
           Swal.fire({
             title: 'Success',
             text: 'User registered successfully',
@@ -56,7 +61,7 @@ export class RegisterComponent implements OnInit {
             this.router.navigate(['/auth/login']);
           });
         },
-        error => {
+        error: (error) => {
           Swal.fire({
             title: 'Error',
             text: error.message || 'An error occurred while registering the user',
@@ -64,18 +69,21 @@ export class RegisterComponent implements OnInit {
             confirmButtonText: 'OK'
           });
         }
-      );
-    }
+      });
   }
+  
 
   // Metodo para verificar si un campo de un formulario no es valido
   invalidField(field: string): boolean {
     const control = this.registerForm.get(field);
     if (control) {
-      return control.invalid && control.touched;
-    } else {
-      return false;
+      return control.invalid && (control.touched || control.dirty);
     }
+    return false;
+  }
+
+  private markAllAsTouched() {
+    this.registerForm.markAllAsTouched();
   }
   
 }

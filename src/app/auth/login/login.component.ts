@@ -21,15 +21,26 @@ export class LoginComponent {
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private router: Router
-  ) { //rglas de validacion
+  ) { //Reglas de validacion
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.required], 
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
+
   
-  //MEtodo para inicio de sesion
+  //Método para inicio de sesion
   onSubmit(): void {
+    const usernameControl = this.loginForm.get('username');
+    if (usernameControl) {
+      usernameControl.markAsTouched(); // Marcar como tocado antes de la validación
+    }
+    
+    const passwordControl = this.loginForm.get('password');
+    if (passwordControl) {
+      passwordControl.markAsTouched(); // Marcar como tocado antes de la validación
+    }
+
     if (this.loginForm.valid) {
       const { username, password } = this.loginForm.value; // Obtener las credenciales del formulario
       const credentials = { //Las almacenamos en un objeto 
