@@ -4,13 +4,13 @@ import { NavBarComponent } from "../nav-bar/nav-bar.component";
 import { RecipeService } from '../services/recipe.service';
 import { Recipe } from '../interfaces/Recipe';
 import { AuthService } from '../auth/services/auth.service';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
     selector: 'app-home',
     standalone: true,
     templateUrl: './home.component.html',
-    imports: [FooterComponent, NavBarComponent],
+    imports: [FooterComponent, NavBarComponent, RouterModule],
     styleUrl: './home.component.css'
 })
 export class HomeComponent implements OnInit{
@@ -19,12 +19,12 @@ export class HomeComponent implements OnInit{
     currentFilterMethod: string | null = null;
     
     searchTerm: string = '';
-
+    id: number  = 0;
 
     constructor(private recipeService: RecipeService, private authService: AuthService, private router: Router) {}
 
     ngOnInit(): void {
-  
+      this.id = this.authService.getUserId();
 
     }
 

@@ -21,7 +21,7 @@
     <!-- Tarjetas -->
     <div class="d-flex flex-wrap justify-content-center"> 
       @for (recipe of recipes; track $index) {
-      <div class="card border-warning mb-3 gallery-card" style="width: 100%; max-width: 800px; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,.2);">
+      <div class="card border-warning mb-3 gallery-card  bg-light" style="width: 100%; max-width: 800px; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,.2);">
         @if (!recipe.deleted) { 
           <div class="row g-0">
             <div class="col-md-4" style="padding-right: 15px;">

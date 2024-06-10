@@ -133,7 +133,14 @@
         </section>
 
         <section class="share mt-5">
-            <h2 class="text-warning">Share Your Brews</h2>
+            <h2 class="text-warning">
+                Share Your Brews
+                @if(id){
+                <a [routerLink]="'/user/' + id + '/recipes'" class="styled-link">
+                    <img src="../../assets/icons/enlace.png" alt="Enlace" style="width: 30px; height: 30px; margin-left: 5px;">
+                </a>
+                }
+            </h2>                                          
             <div class="row">
                 <div class="col-md-4">
                     <div class="card mb-4 shadow-sm">

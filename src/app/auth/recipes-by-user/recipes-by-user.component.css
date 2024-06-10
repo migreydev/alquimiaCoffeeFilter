@@ -1,4 +1,16 @@
 
+.table-rounded-border {
+    border: 1.5px solid #ffc107; 
+    border-radius: 20px;
+    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.1); 
+  }
+
+  .table-soft-yellow {
+    background-color: #f2f0e0a4; 
+  }
+  
+  
+
 @media (max-width: 768px) {
     .table-responsive {
         overflow-x: auto;

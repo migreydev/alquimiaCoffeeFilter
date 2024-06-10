@@ -70,7 +70,7 @@ export class AddRecetaComponent implements OnInit {
     this.newRecipe.userName = this.authService.getUsername() || ""; // Obtener el nombre de usuario
     this.newRecipe.userEmail = this.authService.getUserEmail() || ""; // Obtener el correo
   
-    if (this.newRecipe.userId && this.newRecipe.title && this.newRecipe.description && this.newRecipe.filteringMethod) {
+    if (this.newRecipe.userId && this.newRecipe.title && this.newRecipe.originIds.length > 0 && this.newRecipe.description && this.newRecipe.filteringMethod) {
       this.recipeService.addRecipe(this.newRecipe).subscribe({
         next: (recipe) => {
           this.successMessage = 'Recipe added successfully!';

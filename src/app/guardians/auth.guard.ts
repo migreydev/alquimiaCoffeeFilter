@@ -9,11 +9,8 @@ export const authGuard: CanMatchFn = (route, state) => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
-  console.log('authGuard called');
-
   return authService.validateTokenLocalStorage().pipe(
     map(isValid => {
-      console.log('Token is valid:', isValid);
       if (isValid) {
         return true;
       } else {

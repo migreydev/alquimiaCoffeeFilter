@@ -4,10 +4,21 @@
         <h3 class="mb-0">Lista de Recetas de {{ userName }}</h3>
     </div>
 
+    <div class="d-flex justify-content-between mb-3">
+      <div>
+          <app-select-type (typeMethod)="methodRecibe = $event"></app-select-type>
+      </div>
+      <div>
+          <button class="btn btn-warning btn-hover-effect sort-button" (click)="sortRecipesByTitle()">
+              <img src="../../assets/icons/orden-de-clasificacion.png" alt="Sort" style="height: 20px; width: 20px;"> Sort by Title
+          </button>
+      </div>
+    </div>
+
     <div class="table-responsive">
-    <table datatable [dtOptions]="dtOptions" class="table table-bordered text-center">
+    <table datatable [dtOptions]="dtOptions" class="table table-bordered text-center table-hover table-rounded-border">
         <thead>
-          <tr class="text-center">
+          <tr class="text-center table-warning table-hover">
             <th class="text-center">Title</th>
             <th class="text-center">Description</th>
             <th class="text-center">Method</th>
@@ -18,21 +29,22 @@
           </tr>
         </thead>
         <tbody>
-        @for (recipe of userRecipes; track $index) {
+        @for (recipe of paginatedRecipes; track $index) {
+          @if(methodRecibe === recipe.filteringMethod || methodRecibe === '' || methodRecibe === undefined){
           <tr class="text-center">
-            <td style="text-align: left;">{{ recipe.title }}</td>
-            <td style="text-align: left; max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ recipe.description }}</td>
-            <td>{{ recipe.filteringMethod }}</td>
-            <td>{{ recipe.userName }}</td>
-            <td>{{ recipe.userEmail }}</td>
-            <td>
+            <td class="table-soft-yellow" style="text-align: left;">{{ recipe.title }}</td>
+            <td class="table-soft-yellow" style="text-align: left; max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ recipe.description }}</td>
+            <td class="table-soft-yellow">{{ recipe.filteringMethod }}</td>
+            <td class="table-soft-yellow">{{ recipe.userName }}</td>
+            <td class="table-soft-yellow">{{ recipe.userEmail }}</td>
+            <td class="table-soft-yellow">
               @if(recipe.deleted ){
                 Eliminated
               }@else {
                 Active
               }
             </td>
-            <td  style="white-space: nowrap;">
+            <td class="table-soft-yellow"  style="white-space: nowrap;">
                 @if(!recipe.deleted){
                   <button class="btn btn-sm btn-warning me-2" [routerLink]="['/recipe/detail', recipe.id]" type="button">
                     <span class="d-inline-flex align-items-center">
@@ -54,9 +66,45 @@
               }
             </td>
           </tr>
+          }
         }
         </tbody>
       </table>
+      @if(methodRecibe){
+        @if(!isMethodInPage(methodRecibe)){
+          <div class="alert alert-warning text-center" role="alert">
+            No recipes were found with the selected method: {{ methodRecibe }}
+          </div>
+        }
+      }
+      <nav aria-label="Page navigation example" class="d-flex justify-content-center mt-4">
+        <ul class="pagination">
+            <li class="page-item" [class.disabled]="currentPage === 1">
+                <button class="page-link ms-2" (click)="firstPage()" aria-label="First" style="background-color: #ffc107; border-color: #ffc107;">
+                    <span aria-hidden="true" style="color: #000000;">&laquo;&laquo;</span>
+                </button>
+            </li>
+            <li class="page-item" [class.disabled]="currentPage === 1">
+                <button class="page-link ms-2" (click)="prevPage()" aria-label="Previous" style="background-color: #ffc107; border-color: #ffc107;">
+                    <span aria-hidden="true" style="color: #000000;">&laquo;</span>
+                </button>
+            </li>
+            <li class="page-item">
+                <span class="page-link ms-2" style="color: #000000;">{{ currentPage }}</span>
+            </li>
+            <li class="page-item" [class.disabled]="currentPage === totalPages">
+                <button class="page-link ms-2" (click)="nextPage()" aria-label="Next" style="background-color: #ffc107; border-color: #ffc107;">
+                    <span aria-hidden="true" style="color: #000000;">&raquo;</span>
+                </button>
+            </li>
+            <li class="page-item" [class.disabled]="currentPage === totalPages">
+                <button class="page-link ms-2" (click)="lastPage()" aria-label="Last" style="background-color: #ffc107; border-color: #ffc107;">
+                    <span aria-hidden="true" style="color: #000000;">&raquo;&raquo;</span>
+                </button>
+            </li>
+        </ul>
+    </nav>
+    
     </div>
     </div>
   <app-footer></app-footer>

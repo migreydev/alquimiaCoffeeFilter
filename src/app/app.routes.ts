@@ -8,15 +8,16 @@ import { RecipesByUserComponent } from './auth/recipes-by-user/recipes-by-user.c
 import { authRoleGuard } from './guardians/auth-role.guard';
 import { FavoriteRecipesComponent } from './favorite-recipes/favorite-recipes.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { authGuard } from './guardians/auth.guard';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
-    { path: 'recipes', component: ListaRecetasComponent },
-    { path: 'recipe', component: AddRecetaComponent , canMatch: [authRoleGuard]},
-    { path: 'recipe/:id', component: EditRecetaComponent , canMatch: [authRoleGuard]},
+    { path: 'recipes', component: ListaRecetasComponent, canMatch: [authGuard, authRoleGuard]},
+    { path: 'recipe', component: AddRecetaComponent , canMatch: [authGuard, authRoleGuard]},
+    { path: 'recipe/:id', component: EditRecetaComponent , canMatch: [authGuard, authRoleGuard]},
     { path: 'recipe/detail/:id', component: DetailRecetaComponent },
-    { path: 'user/:userId/recipes', component: RecipesByUserComponent , canMatch: [authRoleGuard]},
+    { path: 'user/:userId/recipes', component: RecipesByUserComponent , canMatch: [authGuard, authRoleGuard]},
     { path: 'auth', loadChildren: () => import('./auth/routes').then(mod => mod.authRoutes) },
-    { path: 'recipesFavourite', component: FavoriteRecipesComponent  , canMatch: [authRoleGuard]},
+    { path: 'recipesFavourite', component: FavoriteRecipesComponent  , canMatch: [authGuard, authRoleGuard]},
     { path:"**", component:NotFoundComponent}
 ];
