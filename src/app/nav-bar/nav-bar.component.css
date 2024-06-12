@@ -71,6 +71,11 @@
   text-shadow: 0 0 5px #fecd1a; 
 }
 
+.active {
+  font-weight: bold;
+  color: #ffc107 !important;
+  border-bottom: 2px solid #ffc107;
+}
 
 
 @media (max-width: 992px) {

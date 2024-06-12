@@ -11,21 +11,35 @@
         <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a  class="nav-link active text-warning" aria-current="page" routerLink="/" >Home</a>
+                    <a  class="nav-link text-warning" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" aria-current="page" >Home</a>
                 </li>
+                @if(userRole === "user" || userRole === "admin"){
                 <li class="nav-item">
-                    <a class="nav-link active text-warning" routerLink="/recipes" aria-current="page" href="#">List Recipes</a>
+                    <a class="nav-link text-warning" routerLink="/recipes" routerLinkActive="active" aria-current="page" >List Recipes</a>
                 </li>
+                }
+                @if(userRole === "admin"){
+                    <li class="dropdown">
+                        <a class="nav-link dropdown-toggle text-warning" type="button" aria-haspopup="true" 
+                           data-bs-toggle="dropdown" aria-expanded="false" routerLinkActive="active">
+                          Origin
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark" style="border-color: #ffc107; border-style: solid; border-width: 2px;">
+                          <li><a class="dropdown-item text-warning" routerLink="/origins" routerLinkActive="active">Origin List</a></li>
+                          <li><a class="dropdown-item text-warning" routerLink="/origin" routerLinkActive="active">Add Origin</a></li>
+                        </ul>
+                      </li>
+                }
                 @if(userRole === "user" || userRole === "admin"){
                     <li class="dropdown">
                         <a class="nav-link dropdown-toggle text-warning" type="button" aria-haspopup="true" 
-                           data-bs-toggle="dropdown" aria-expanded="false">
+                           data-bs-toggle="dropdown" aria-expanded="false" routerLinkActive="active">
                           My Space
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark" style="border-color: #ffc107; border-style: solid; border-width: 2px;">
-                          <li><a class="dropdown-item text-warning" routerLink="/recipe">Add Recipe</a></li>
-                          <li><a class="dropdown-item text-warning" [routerLink]="['/user', getUserId(), 'recipes']">See own recipes</a></li>
-                          <li><a class="dropdown-item text-warning" routerLink="/recipesFavourite">Favourite Recipes</a></li>
+                          <li><a class="dropdown-item text-warning" routerLink="/recipe" routerLinkActive="active">Add Recipe</a></li>
+                          <li><a class="dropdown-item text-warning" [routerLink]="['/user', getUserId(), 'recipes']" routerLinkActive="active">See own recipes</a></li>
+                          <li><a class="dropdown-item text-warning" routerLink="/recipesFavourite" routerLinkActive="active">Favourite Recipes</a></li>
                         </ul>
                       </li>
                 }

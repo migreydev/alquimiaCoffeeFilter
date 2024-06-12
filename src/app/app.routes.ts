@@ -9,6 +9,10 @@ import { authRoleGuard } from './guardians/auth-role.guard';
 import { FavoriteRecipesComponent } from './favorite-recipes/favorite-recipes.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { authGuard } from './guardians/auth.guard';
+import { ListOriginComponent } from './origin/list-origin/list-origin.component';
+import { AddOriginComponent } from './origin/add-origin/add-origin.component';
+import { EditOriginComponent } from './origin/edit-origin/edit-origin.component';
+import { DeteilOriginComponent } from './origin/deteil-origin/deteil-origin.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
@@ -19,5 +23,9 @@ export const routes: Routes = [
     { path: 'user/:userId/recipes', component: RecipesByUserComponent , canMatch: [authGuard, authRoleGuard]},
     { path: 'auth', loadChildren: () => import('./auth/routes').then(mod => mod.authRoutes) },
     { path: 'recipesFavourite', component: FavoriteRecipesComponent  , canMatch: [authGuard, authRoleGuard]},
+    { path: 'origins', component: ListOriginComponent , canMatch: [authGuard, authRoleGuard]},
+    { path: 'origin', component: AddOriginComponent , canMatch: [authGuard, authRoleGuard]},
+    { path: 'origin/detail/:id', component: DeteilOriginComponent , canMatch: [authGuard, authRoleGuard]},
+    { path: 'origin/:id', component: EditOriginComponent , canMatch: [authGuard, authRoleGuard]},
     { path:"**", component:NotFoundComponent}
 ];
