@@ -3,7 +3,7 @@ import { FooterComponent } from "../../footer/footer.component";
 import { NavBarComponent } from "../../nav-bar/nav-bar.component";
 import { Origin } from '../interfaces/origin';
 import { OriginService } from '../services/origin.service';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 
@@ -41,7 +41,7 @@ export class EditOriginComponent implements OnInit{
 
   successMessage: string = ''; //mensaje
   errorMessage: string = ''; //mensaje
-
+  successShown: boolean = false;
 
 
 
@@ -53,11 +53,12 @@ export class EditOriginComponent implements OnInit{
     this.errorMessage = ''; // Limpiar el mensaje de error
   }
 
-  onSubmit(){
+  onSubmit(form: NgForm){
     if (this.origin.country && this.origin.notesFlavour && this.origin.region) {
       this.originService.updateOrigin(this.origin.id, this.origin).subscribe({
         next: (origin) => {
           this.successMessage = 'Origin edit successfully!';
+          this.successShown = true;
           this.errorMessage = '';
           this.resetForm(); // Resetea el formulario
         },
@@ -69,7 +70,15 @@ export class EditOriginComponent implements OnInit{
       });
     } else {
       this.errorMessage = 'Required user information is missing.';
+      this.markAllAsTouched(form);
     }
+  }
+
+  // Metodo para marcar todos los campos como tocados para mostrar errores
+  private markAllAsTouched(form: NgForm): void {
+    Object.values(form.controls).forEach(control => {
+      control.markAsTouched();
+    });
   }
 }
 

@@ -4,7 +4,7 @@ import { NavBarComponent } from "../nav-bar/nav-bar.component";
 import { Recipe } from '../interfaces/Recipe';
 import { RecipeService } from '../services/recipe.service';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { Origin } from '../interfaces/Origin';
 import { AuthService } from '../auth/services/auth.service';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -38,7 +38,7 @@ export class AddRecetaComponent implements OnInit {
 
   successMessage: string = ''; //Mensaje exito
   errorMessage: string = ''; //Mensaje error
-
+  successShown: boolean = false;
 
   constructor(private recipeService: RecipeService, private authService: AuthService) {}
 
@@ -64,7 +64,7 @@ export class AddRecetaComponent implements OnInit {
   }
 
   //Metodo para guardar receta
-  saveRecipe(): void {
+  saveRecipe(form: NgForm): void {
     // Asignar detalles del usuario justo antes de guardar la receta
     this.newRecipe.userId = this.authService.getUserId() || 0; // Obtener el ID de usuario
     this.newRecipe.userName = this.authService.getUsername() || ""; // Obtener el nombre de usuario
@@ -74,6 +74,7 @@ export class AddRecetaComponent implements OnInit {
       this.recipeService.addRecipe(this.newRecipe).subscribe({
         next: (recipe) => {
           this.successMessage = 'Recipe added successfully!';
+          this.successShown = true;
           this.resetForm(); // Resetea el formulario
         },
         error: (error) => {
@@ -83,6 +84,7 @@ export class AddRecetaComponent implements OnInit {
       });
     } else {
       this.errorMessage = 'Required user information is missing.';
+      this.markAllAsTouched(form);
     }
   }
   
@@ -108,6 +110,13 @@ export class AddRecetaComponent implements OnInit {
   getEmail(): string | null {
     const user = this.authService.user;
     return user ? user.email : null;
+  }
+
+  // Metodo para marcar todos los campos como tocados para mostrar errores
+  private markAllAsTouched(form: NgForm): void {
+    Object.values(form.controls).forEach(control => {
+      control.markAsTouched();
+    });
   }
 
 

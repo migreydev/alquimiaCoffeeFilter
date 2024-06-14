@@ -13,21 +13,30 @@
                     <h4>Edit Origin</h4>
                 </div>
                 <div class="card-body">
-                    <form (ngSubmit)="onSubmit()">
+                    <form #form="ngForm" (ngSubmit)="onSubmit(form)">
                         <!-- Title -->
                         <div class="form-group">
                             <label for="title">Country</label>
                             <input type="text" class="form-control mb-3" id="country" name="country" [(ngModel)]="origin.country" placeholder="Enter country" required>
+                            <div *ngIf="form.submitted && form.controls['country']?.invalid && !successShown" class="text-danger">
+                                Country is required.
+                            </div>
                         </div>
             
                         <!-- Region -->
                         <div class="form-group">
                             <label for="region">Region</label>
                             <input type="text" id="region" name="region" class="form-control mb-3" [(ngModel)]="origin.region" placeholder="Enter region" required>
+                            <div *ngIf="form.submitted && form.controls['region']?.invalid && !successShown" class="text-danger">
+                                Region is required.
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="notesFlavour">Notes Flavour</label>
                             <textarea id="notesFlavour" name="notesFlavour" class="form-control mb-3" rows="3" [(ngModel)]="origin.notesFlavour" placeholder="Enter notes flavour" required></textarea>
+                            <div *ngIf="form.submitted && form.controls['notesFlavour']?.invalid && !successShown" class="text-danger">
+                                Notes flavour is required.
+                            </div>
                         </div>
                         <div class="d-flex">
                             <div class="form-group mr-2">

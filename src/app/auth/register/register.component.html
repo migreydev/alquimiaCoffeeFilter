@@ -13,6 +13,11 @@
               <label for="inputName" class="form-label">Full Name</label>
               <input type="text" class="form-control" id="inputName" formControlName="name" placeholder="Enter your full name" required>
             </div>
+            @if (invalidField('name')) {
+              <span class="form-text text-danger">
+                  {{nameErrorMsg}}
+              </span>
+            } 
             <!-- Correo electrónico -->
             <div class="mb-3">
               <label for="inputEmail" class="form-label">Email</label>
@@ -22,17 +27,22 @@
               <span class="form-text text-danger">
                 Incorrect email format
               </span>
-            }           
+            } 
+            @if (invalidField('email')) {
+              <span class="form-text text-danger">
+                  {{emailErrorMsg}}
+              </span>
+            }              
             <!-- Username -->
             <div class="mb-3">
               <label for="inputUsername" class="form-label">Username</label>
               <input type="text" class="form-control" id="inputUsername" formControlName="username" placeholder="Enter your username" required>
             </div>
-            @if(invalidField('inputUsername') && registerForm.get('username')){
+            @if (invalidField('username')) {
               <span class="form-text text-danger">
-                Incorrect username format
+                  {{usernameErrorMsg}}
               </span>
-            }   
+            }  
             <!-- Contraseña -->
             <div class="mb-3">
               <label for="inputPassword" class="form-label">Password</label>

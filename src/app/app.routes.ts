@@ -13,19 +13,20 @@ import { ListOriginComponent } from './origin/list-origin/list-origin.component'
 import { AddOriginComponent } from './origin/add-origin/add-origin.component';
 import { EditOriginComponent } from './origin/edit-origin/edit-origin.component';
 import { DeteilOriginComponent } from './origin/deteil-origin/deteil-origin.component';
+import { adminRoleGuard } from './guardians/adminRoleGuard.guard';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
-    { path: 'recipes', component: ListaRecetasComponent, canMatch: [authGuard, authRoleGuard]},
+    { path: 'recipes', component: ListaRecetasComponent},
     { path: 'recipe', component: AddRecetaComponent , canMatch: [authGuard, authRoleGuard]},
     { path: 'recipe/:id', component: EditRecetaComponent , canMatch: [authGuard, authRoleGuard]},
     { path: 'recipe/detail/:id', component: DetailRecetaComponent },
     { path: 'user/:userId/recipes', component: RecipesByUserComponent , canMatch: [authGuard, authRoleGuard]},
     { path: 'auth', loadChildren: () => import('./auth/routes').then(mod => mod.authRoutes) },
     { path: 'recipesFavourite', component: FavoriteRecipesComponent  , canMatch: [authGuard, authRoleGuard]},
-    { path: 'origins', component: ListOriginComponent , canMatch: [authGuard, authRoleGuard]},
-    { path: 'origin', component: AddOriginComponent , canMatch: [authGuard, authRoleGuard]},
-    { path: 'origin/detail/:id', component: DeteilOriginComponent , canMatch: [authGuard, authRoleGuard]},
-    { path: 'origin/:id', component: EditOriginComponent , canMatch: [authGuard, authRoleGuard]},
+    { path: 'origins', component: ListOriginComponent , canMatch: [authGuard, adminRoleGuard]},
+    { path: 'origin', component: AddOriginComponent , canMatch: [authGuard, adminRoleGuard]},
+    { path: 'origin/detail/:id', component: DeteilOriginComponent , canMatch: [authGuard, adminRoleGuard]},
+    { path: 'origin/:id', component: EditOriginComponent , canMatch: [authGuard, adminRoleGuard]},
     { path:"**", component:NotFoundComponent}
 ];

@@ -6,7 +6,7 @@ import { Origin } from '../interfaces/Origin';
 import { Recipe } from '../interfaces/Recipe';
 import { RecipeService } from '../services/recipe.service';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
@@ -33,6 +33,7 @@ export class EditRecetaComponent implements OnInit{
 
   successMessage: string = ''; //mensaje
     errorMessage: string = ''; //mensaje
+    successShown: boolean = false;
 
   constructor(private route: ActivatedRoute, private recipeService: RecipeService) { }
 
@@ -65,7 +66,7 @@ export class EditRecetaComponent implements OnInit{
   }
   
   //Metodo para guardar la receta
-  saveRecipe(): void {
+  saveRecipe(form: NgForm): void {
 
      // Verificar si algún campo requerido está vacío
   if (!this.recipeForm.title || !this.recipeForm.filteringMethod || this.recipeForm.originIds.length === 0 || !this.recipeForm.description) {
@@ -76,6 +77,7 @@ export class EditRecetaComponent implements OnInit{
       this.recipeService.updateRecipe(this.recipeForm.id, this.recipeForm).subscribe({ //se llama al metodo actualizar del servicio y se le pasa el id y la receta
         next: (updatedRecipe) => {
           this.successMessage = 'Recipe updated successfully!';
+          this.successShown = true;
           this.errorMessage = '';
           this.resetForm(); //Se resetea los valores de la receta
         },
@@ -85,6 +87,9 @@ export class EditRecetaComponent implements OnInit{
           this.successMessage = '';
         }
       });
+    } else {
+      this.errorMessage = 'Required user information is missing.';
+      this.markAllAsTouched(form);
     }
   }
   
@@ -100,10 +105,12 @@ export class EditRecetaComponent implements OnInit{
     });
   }
   
-  
-
-
-
+  // Metodo para marcar todos los campos como tocados para mostrar errores
+  private markAllAsTouched(form: NgForm): void {
+    Object.values(form.controls).forEach(control => {
+      control.markAsTouched();
+    });
+  }
 
 
 }

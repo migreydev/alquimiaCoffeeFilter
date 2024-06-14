@@ -3,7 +3,7 @@ import { FooterComponent } from "../../footer/footer.component";
 import { NavBarComponent } from "../../nav-bar/nav-bar.component";
 import { OriginService } from '../services/origin.service';
 import { Origin } from '../interfaces/origin';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
@@ -19,6 +19,8 @@ export class AddOriginComponent implements OnInit{
 
   successMessage: string = ''; //Mensaje exito
   errorMessage: string = ''; //Mensaje error
+  successShown: boolean = false;
+
 
   ngOnInit(): void {
     
@@ -30,11 +32,12 @@ export class AddOriginComponent implements OnInit{
     notesFlavour: '',
   }
 
-  onSubmit(){
+  onSubmit(form: NgForm){
     if (this.origin.country && this.origin.notesFlavour && this.origin.region) {
       this.originService.addOrigin(this.origin).subscribe({
         next: (origin) => {
           this.successMessage = 'Origin added successfully!';
+          this.successShown = true;
           this.resetForm(); // Resetea el formulario
         },
         error: (error) => {
@@ -44,6 +47,7 @@ export class AddOriginComponent implements OnInit{
       });
     } else {
       this.errorMessage = 'Required user information is missing.';
+      this.markAllAsTouched(form);
     }
   }
 
@@ -53,6 +57,13 @@ export class AddOriginComponent implements OnInit{
     this.origin.notesFlavour = '';
     this.origin.region = '';
     this.errorMessage = ''; // Limpiar el mensaje de error
+  }
+
+  // Metodo para marcar todos los campos como tocados para mostrar errores
+  private markAllAsTouched(form: NgForm): void {
+    Object.values(form.controls).forEach(control => {
+      control.markAsTouched();
+    });
   }
 
 }

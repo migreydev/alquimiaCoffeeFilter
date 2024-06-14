@@ -7,7 +7,8 @@ import Swal from 'sweetalert2';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ValidatorsService } from '../services/validators.service';
-import { EmailValidatorService } from '../services/email-validator.service';
+import { ValidateEmailService } from '../services/email-validator.service';
+import { ValidateUsernameService } from '../services/username-validator.service';
 
 @Component({
     selector: 'app-register',
@@ -24,7 +25,8 @@ export class RegisterComponent implements OnInit {
     private authService: AuthService,
     private validatorsService: ValidatorsService, 
     private router: Router,
-    private emailValidatorService: EmailValidatorService
+    private validateEmailService: ValidateEmailService,
+    private validateUsernameService : ValidateUsernameService
   ) {}
 
 
@@ -33,8 +35,8 @@ export class RegisterComponent implements OnInit {
     this.registerForm = this.formBuilder.group({
       // Definir los campos del formulario y sus valores iniciales con validaciones
       name: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email, this.emailValidatorService.emailValidator()]], 
-      username: ['', [Validators.required, this.validatorsService.usernameValidator()]], 
+      email: ['', [Validators.required, Validators.email], [this.validateEmailService]], 
+      username: ['', [Validators.required], [this.validateUsernameService]], 
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', Validators.required],
     }, {
@@ -44,10 +46,9 @@ export class RegisterComponent implements OnInit {
 
   //Verificacion del formulario
   onSubmit(): void {
-    if (this.registerForm.invalid) {
       this.markAllAsTouched();
-      return;
-    }
+
+      if (this.registerForm.valid) {
       const { name, email, username, password } = this.registerForm.value;
       const rol = 'user';
       this.authService.register({ name, email, username, password, rol }).subscribe({
@@ -70,6 +71,7 @@ export class RegisterComponent implements OnInit {
           });
         }
       });
+    }
   }
   
 
@@ -82,8 +84,59 @@ export class RegisterComponent implements OnInit {
     return false;
   }
 
-  private markAllAsTouched() {
-    this.registerForm.markAllAsTouched();
+  get email() {
+    return this.registerForm.get('email');
+  }
+
+  get emailErrorMsg(): string {
+    const errors = this.registerForm.get('email')?.errors ;
+    let errorMsg: string = '';
+    if(errors){
+      if( errors['required']){
+        errorMsg = 'Email is obligatory';
+      }
+      else if(errors['email']){
+        errorMsg = 'The email is not in mail format';
+      }
+      else if(errors['emailTaken']){
+        errorMsg = 'Email is already in use'
+      }
+      
+    }
+    return errorMsg;
+  }
+
+  get usernameErrorMsg(): string {
+    const errors = this.registerForm.get('username')?.errors;
+    let errorMsg: string = '';
+
+    if (errors) {
+      if (errors['required']) {
+        errorMsg = 'Username is required';
+      } else if (errors['usernameTaken']) {
+        errorMsg = 'Username is already in use';
+      }
+    }
+
+    return errorMsg;
+  }
+
+  get nameErrorMsg(): string {
+    const errors = this.registerForm.get('name')?.errors;
+    let errorMsg: string = '';
+    if (errors) {
+      if (errors['required']) {
+        errorMsg = 'Name is required';
+      }
+    }
+    return errorMsg;
+  }
+
+
+  markAllAsTouched(): void {
+    Object.values(this.registerForm.controls).forEach(control => {
+      control.markAsTouched();
+    });
   }
   
 }

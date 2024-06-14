@@ -1,24 +1,27 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { AbstractControl, AsyncValidator, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { Observable, delay, map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class EmailValidatorService {
+export class ValidateEmailService implements AsyncValidator {
 
-  emailPattern: string = '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'; // Patrón para el correo electrónico
+  constructor(private http: HttpClient) { }
 
-  constructor() { }
+  validate(control: AbstractControl): Observable<ValidationErrors | null> {
+    const email = control.value;
+    
+    return this.http.get<any[]>(`https://proyectoapi-migreydev.onrender.com/users/email/${email}`)
+    .pipe(
+      delay(3000),
+      map( resp => {
+        return (resp.length === 0) ? null : { emailTaken: true}
+      })
 
-  // Validador para el correo electronico
-  emailValidator(): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-      const emailInput: string = control.value.trim();
-      const regex = new RegExp(this.emailPattern);
-      if (!regex.test(emailInput)) {
-        return { invalidEmail: true };
-      }
-      return null;
-    };
+    )
+    
+    
   }
 }

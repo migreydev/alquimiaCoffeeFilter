@@ -13,11 +13,14 @@
                     <h4>Edit Recipe</h4>
                 </div>
                 <div class="card-body">
-                    <form (ngSubmit)="saveRecipe()">
+                    <form #form="ngForm" (ngSubmit)="saveRecipe(form)">
                         <!-- Title -->
                         <div class="form-group">
                             <label for="title">Title</label>
                             <input type="text" class="form-control mb-3" id="title" name="title" [(ngModel)]="recipeForm.title" placeholder="Enter title" required>
+                            <div *ngIf="form.submitted && form.controls['title']?.invalid && !successShown" class="text-danger">
+                                Title is required.
+                            </div>
                         </div>
                         <!-- Filtering Method -->
                         <div class="form-group">
@@ -32,6 +35,9 @@
                                 <option value="Origami">Origami</option>
                                 <option value="French Press">French Press</option>
                             </select>
+                            <div *ngIf="form.submitted && form.controls['filteringMethod']?.invalid && !successShown" class="text-danger">
+                                Filtering Method is required.
+                            </div>
                         </div>
                         <!-- Origin -->
                         <div class="form-group">
@@ -46,12 +52,18 @@
                                     required
                                     class="form-control custom-ng-select">
                             </ng-select>
-
+                            <div *ngIf="form.submitted && form.controls['originIds']?.invalid && !successShown" class="text-danger">
+                                Origin is required.
+                            </div>
                         </div>
+
                         <!-- Description -->
                         <div class="form-group">
                             <label for="description">Description</label>
                             <textarea id="description" name="description" class="form-control mb-3" rows="3" [(ngModel)]="recipeForm.description" placeholder="Enter description" required></textarea>
+                            <div *ngIf="form.submitted && form.controls['description']?.invalid && !successShown" class="text-danger">
+                                Description is required.
+                            </div>
                         </div>
                         <div class="d-flex">
                             <div class="form-group mr-2">
